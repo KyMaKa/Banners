@@ -4,7 +4,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -13,7 +12,6 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.mediatype.problem.Problem;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import testtask.banners.data.modelAssemblers.CategoryModelAssembler;
@@ -30,7 +27,7 @@ import testtask.banners.data.models.Category;
 import testtask.banners.service.CategoryService;
 
 @RestController
-@RequestMapping(path = "/banners")
+@RequestMapping(path = "/categories")
 public class CategoryController {
 
   private final CategoryService categoryService;
@@ -70,7 +67,7 @@ public class CategoryController {
 
   @PutMapping("/{id}")
   public ResponseEntity<?> renameCategory(@RequestBody Category newCategory, @PathVariable("id") Long id) {
-    Category updatedCategory = categoryService.renameCategory(newCategory, id);
+    Category updatedCategory = categoryService.updateCategory(newCategory, id);
     EntityModel<Category> entityModel = assembler.toModel(updatedCategory);
     return ResponseEntity
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())

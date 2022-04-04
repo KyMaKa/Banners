@@ -24,6 +24,7 @@ public class Category extends RepresentationModel<Category> {
   private Long id;
 
   @NonNull
+  @Column(unique = true)
   private String category_name;
 
   @Column(name = "deleted", nullable = false)
@@ -52,6 +53,10 @@ public class Category extends RepresentationModel<Category> {
     return id;
   }
 
+  public void setBanners(Set<Banner> banners) {
+    this.banners = banners;
+  }
+
   public void setId(Long id) {
     this.id = id;
   }
@@ -65,8 +70,12 @@ public class Category extends RepresentationModel<Category> {
   }
 
   public void addBanner(Banner banner) {
-    this.banners.add(banner);
-    banner.getCategories().add(this);
+    if (!banner.getDeleted()) {
+      this.banners.add(banner);
+      banner.getCategories().add(this);
+    } else {
+
+    }
   }
 
   public void removeBanner(Banner banner) {

@@ -2,11 +2,7 @@ package testtask.banners.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import javax.swing.text.AttributeSet.CharacterAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
 import testtask.banners.data.models.Category;
 import testtask.banners.data.repository.CategoryRepository;
@@ -39,9 +35,10 @@ public class CategoryService {
     return categoryRepository.findCategoriesByDeletedFalse();
   }
 
-  public Category renameCategory(Category newCategory, Long id) {
+  public Category updateCategory(Category newCategory, Long id) {
     Category category = getCategory(id);
     category.setCategory_name(newCategory.getCategory_name());
+    category.setBanners(newCategory.getBanners());
     categoryRepository.save(category);
     return category;
   }

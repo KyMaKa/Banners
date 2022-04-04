@@ -8,9 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import org.springframework.lang.NonNull;
 
-@Entity
+@Entity(name = "Banners")
 public class Banner {
 
   @Id
@@ -18,22 +20,24 @@ public class Banner {
   private Long id;
 
   @NonNull
+  @Column(unique = true)
   private String banner_name;
 
-  @NonNull
   private String banner_text;
 
-  @NonNull
   private Integer price;
 
-  @Column(name = "deleted", nullable = false)
+  @Column(name = "deleted")
   private Boolean deleted;
 
-  //It is optimal to use Set, because this reduces SQL operators while deleting.
 
-  @NonNull
+  //It is optimal to use Set, because this reduces SQL operators while deleting.
   @ManyToMany(mappedBy = "banners")
   private Set<Category> categories = new HashSet<>();
+
+  public void setCategories(@NonNull Set<Category> categories) {
+    this.categories = categories;
+  }
 
   public String getBanner_name() {
     return banner_name;
@@ -71,12 +75,11 @@ public class Banner {
     this.id = id;
   }
 
-  @NonNull
   public Boolean getDeleted() {
     return deleted;
   }
 
-  public void setDeleted(@NonNull Boolean deleted) {
+  public void setDeleted(Boolean deleted) {
     this.deleted = deleted;
   }
 }
