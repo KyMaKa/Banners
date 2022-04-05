@@ -1,9 +1,12 @@
 package testtask.banners.data.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,7 +35,8 @@ public class Banner {
 
 
   //It is optimal to use Set, because this reduces SQL operators while deleting.
-  @ManyToMany(mappedBy = "banners")
+  //@JsonManagedReference
+  @ManyToMany(mappedBy = "banners", fetch = FetchType.LAZY)
   private Set<Category> categories = new HashSet<>();
 
   public void setCategories(@NonNull Set<Category> categories) {

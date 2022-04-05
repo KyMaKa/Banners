@@ -1,5 +1,6 @@
 package testtask.banners.data.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import org.springframework.data.annotation.Transient;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.lang.NonNull;
 
@@ -31,10 +33,10 @@ public class Category extends RepresentationModel<Category> {
   private Boolean deleted;
 
   //It is optimal to use Set, because this reduces SQL operators while deleting.
+  @JsonBackReference
   @ManyToMany(fetch = FetchType.LAZY, cascade = {
       CascadeType.PERSIST, CascadeType.MERGE
   })
-
   private Set<Banner> banners = new HashSet<>();
 
   public Set<Banner> getBanners() {

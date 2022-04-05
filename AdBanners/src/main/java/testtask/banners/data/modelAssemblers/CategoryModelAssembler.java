@@ -19,7 +19,7 @@ public class CategoryModelAssembler implements
   public EntityModel<Category> toModel(Category category) {
     EntityModel<Category> categoryEntityModel = EntityModel.of(category,
         linkTo(methodOn(CategoryController.class).getCategory(category.getId())).withSelfRel(),
-        linkTo(methodOn(CategoryController.class).getAllCategory()).withRel("categorys"));
+        linkTo(methodOn(CategoryController.class).getAllCategory()).withRel("categories"));
 
     if (category.getBanners().isEmpty()) {
       categoryEntityModel.add(linkTo(methodOn(CategoryController.class).deleteCategory(category.getId()))
