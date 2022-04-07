@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -34,9 +35,9 @@ public class Category extends RepresentationModel<Category> {
 
   //It is optimal to use Set, because this reduces SQL operators while deleting.
   @JsonBackReference
-  @ManyToMany(fetch = FetchType.LAZY, cascade = {
+  @ManyToMany(fetch = FetchType.LAZY/*, cascade = {
       CascadeType.PERSIST, CascadeType.MERGE
-  })
+  }*/)
   private Set<Banner> banners = new HashSet<>();
 
   public Set<Banner> getBanners() {
@@ -71,13 +72,31 @@ public class Category extends RepresentationModel<Category> {
     this.category_name = name;
   }
 
-  public void addBanner(Banner banner) {
-    if (!banner.getDeleted()) {
-      this.banners.add(banner);
-      banner.getCategories().add(this);
-    } else {
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
+    if (!(o instanceof Category category)) {
+      return false;
+    }
+    if (!super.equals(o)) {
+      return false;
+    }
+    return getId().equals(category.getId()) && getCategory_name().equals(
+        category.getCategory_name());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), getId(), getCategory_name());
+  }
+
+  //TODO: this method sucks i guess. Have to rewrite.
+  public void addBanner(Banner banner) {
+    this.banners.add(banner);
+    banner.getCategories().add(this);
   }
 
   public void removeBanner(Banner banner) {

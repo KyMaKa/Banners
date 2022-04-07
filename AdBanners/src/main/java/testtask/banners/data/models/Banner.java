@@ -3,6 +3,7 @@ package testtask.banners.data.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,6 +34,22 @@ public class Banner {
   @Column(name = "deleted")
   private Boolean deleted;
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Banner banner)) {
+      return false;
+    }
+    return getId().equals(banner.getId()) && getBanner_name().equals(banner.getBanner_name())
+        && Objects.equals(getCategories(), banner.getCategories());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getId(), getBanner_name());
+  }
 
   //It is optimal to use Set, because this reduces SQL operators while deleting.
   //@JsonManagedReference
@@ -69,6 +86,17 @@ public class Banner {
 
   public Set<Category> getCategories() {
     return categories;
+  }
+
+  @Override
+  public String toString() {
+    return "Banner{" +
+        "id=" + id +
+        ", banner_name='" + banner_name + '\'' +
+        ", banner_text='" + banner_text + '\'' +
+        ", price=" + price +
+        ", deleted=" + deleted +
+        '}';
   }
 
   public Long getId() {

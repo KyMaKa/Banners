@@ -1,7 +1,9 @@
 package testtask.banners.service;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import testtask.banners.data.models.Banner;
@@ -50,18 +52,28 @@ public class BannerService {
 
   public void deleteBanner(Long id) {
     Banner banner = getBanner(id);
+    Set<Category> categories = banner.getCategories();
+    for (Category c : categories) {
+      c.removeBanner(banner);
+      categoryRepository.save(c);
+    }
     banner.setDeleted(true);
     bannerRepository.save(banner);
   }
 
-  public Banner addCategory(Category category, Banner banner) {
+  public Banner addCategory(Category category, Long id) {
+    Banner banner = bannerRepository.getBannerByIdAndDeletedFalse(id);
     category.addBanner(banner);
     bannerRepository.save(banner);
     categoryRepository.save(category);
     return banner;
+
   }
 
-  public Banner removeCategory(Category category, Banner banner) {
+  public Banner removeCategory(Long category_id, Long banner_id) {
+    Optional<Category> optionalCategory = categoryRepository.findCategoryByIdAndDeletedFalse(category_id);
+    Category category = optionalCategory.get();
+    Banner banner = bannerRepository.getBannerByIdAndDeletedFalse(banner_id);
     category.removeBanner(banner);
     bannerRepository.save(banner);
     categoryRepository.save(category);

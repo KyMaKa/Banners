@@ -52,7 +52,7 @@ public class BannerController {
   }
 
   @PostMapping()
-  public ResponseEntity<?> addBanner(Banner banner) {
+  public ResponseEntity<?> addBanner(@RequestBody Banner banner) {
     EntityModel<Banner> entityModel = assembler.toModel(bannerService.createBanner(banner));
 
     return ResponseEntity
@@ -71,7 +71,16 @@ public class BannerController {
 
   @PutMapping(path = "/add/{id}")
   public ResponseEntity<?> addCategoryToBanner(@RequestBody Category category, @PathVariable("id") Long id) {
-    Banner banner = bannerService.addCategory(category, bannerService.getBanner(id));
+    Banner banner = bannerService.addCategory(category, id);
+    EntityModel<Banner> entityModel = assembler.toModel(banner);
+    return ResponseEntity
+        .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+        .body(entityModel);
+  }
+
+  @PutMapping(path = "/remove/{id}")
+  public ResponseEntity<?> removeCategoryFromBanner(@RequestBody Long category_id, @PathVariable("id") Long id) {
+    Banner banner = bannerService.removeCategory(category_id, id);
     EntityModel<Banner> entityModel = assembler.toModel(banner);
     return ResponseEntity
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
