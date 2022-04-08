@@ -1,6 +1,5 @@
 package testtask.banners.service;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -70,9 +69,7 @@ public class BannerService {
 
   }
 
-  public Banner removeCategory(Long category_id, Long banner_id) {
-    Optional<Category> optionalCategory = categoryRepository.findCategoryByIdAndDeletedFalse(category_id);
-    Category category = optionalCategory.get();
+  public Banner removeCategory(Category category, Long banner_id) {
     Banner banner = bannerRepository.getBannerByIdAndDeletedFalse(banner_id);
     category.removeBanner(banner);
     bannerRepository.save(banner);

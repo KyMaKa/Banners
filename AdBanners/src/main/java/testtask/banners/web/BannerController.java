@@ -79,14 +79,13 @@ public class BannerController {
   }
 
   @PutMapping(path = "/remove/{id}")
-  public ResponseEntity<?> removeCategoryFromBanner(@RequestBody Long category_id, @PathVariable("id") Long id) {
-    Banner banner = bannerService.removeCategory(category_id, id);
+  public ResponseEntity<?> removeCategoryFromBanner(@RequestBody Category category, @PathVariable("id") Long id) {
+    Banner banner = bannerService.removeCategory(category, id);
     EntityModel<Banner> entityModel = assembler.toModel(banner);
     return ResponseEntity
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
         .body(entityModel);
   }
-
 
   @DeleteMapping(path = "{id}")
   public ResponseEntity<?> deleteBanner(@PathVariable(name = "id") Long id) {

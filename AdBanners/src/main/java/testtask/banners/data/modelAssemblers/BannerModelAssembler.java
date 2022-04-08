@@ -7,9 +7,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 import testtask.banners.data.models.Banner;
-import testtask.banners.data.models.Category;
 import testtask.banners.web.BannerController;
-import testtask.banners.web.CategoryController;
 
 @Component
 public class BannerModelAssembler implements
