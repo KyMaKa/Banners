@@ -1,17 +1,18 @@
-import React, { Component } from "react";
+import React from 'react';
 import ReactDOM from "react-dom";
+import Header from "../../../frontend/src/components/layouts/Header";
+import Main from "../../../frontend/src/components/layouts/Main";
 
-
-export class App extends Component {
+class App extends React.Component {
   render() {
     return (
-        <div>
-          <h1>Welcome to React Front End Served by Spring Boot!</h1>
+        <div className="container">
+          <Header />
+          <Main />
         </div>
     );
   }
 }
 
-export default App;
 
 ReactDOM.render(<App />, document.querySelector("#app"));
