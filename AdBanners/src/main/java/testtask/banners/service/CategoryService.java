@@ -37,7 +37,7 @@ public class CategoryService {
 
   public Category updateCategory(Category newCategory, Long id) {
     Category category = getCategory(id);
-    category.setCategory_name(newCategory.getCategory_name());
+    category.setName(newCategory.getName());
     category.setBanners(newCategory.getBanners());
     categoryRepository.save(category);
     return category;

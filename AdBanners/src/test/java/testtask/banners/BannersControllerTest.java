@@ -56,8 +56,8 @@ class BannersControllerTest {
   void setup() {
     banner = new Banner();
     banner.setId(1L);
-    banner.setBanner_name("Some banner");
-    banner.setBanner_text("Some text");
+    banner.setName("Some banner");
+    banner.setText("Some text");
     banner.setPrice(10);
     banner.setDeleted(false);
 
@@ -83,8 +83,8 @@ class BannersControllerTest {
     Banner banner2;
     banner2 = new Banner();
     banner2.setId(2L);
-    banner2.setBanner_name("Some other banner");
-    banner2.setBanner_text("Some text");
+    banner2.setName("Some other banner");
+    banner2.setText("Some text");
     banner2.setPrice(10);
     banner2.setDeleted(false);
     List<Banner> banners = new ArrayList<>();
@@ -126,8 +126,8 @@ class BannersControllerTest {
   public void testUpdateBanner() throws Exception {
     Banner updatedBanner = new Banner();
     updatedBanner.setId(banner.getId());
-    updatedBanner.setBanner_name("Some banner");
-    updatedBanner.setBanner_text("Some text");
+    updatedBanner.setName("Some banner");
+    updatedBanner.setText("Some text");
     updatedBanner.setPrice(290);
     updatedBanner.setDeleted(false);
     when(bannerService.updateBanner(any(), any())).thenReturn(updatedBanner);
@@ -156,7 +156,7 @@ class BannersControllerTest {
   @Test
   public void testAddCategoryToBanner() throws Exception {
     Category category = new Category();
-    category.setCategory_name("Some category");
+    category.setName("Some category");
     category.setId(1L);
     category.setDeleted(false);
     Set<Category> set = new HashSet<>();
@@ -175,7 +175,7 @@ class BannersControllerTest {
   @Test
   public void testRemoveCategoryToBanner() throws Exception {
     Category category = new Category();
-    category.setCategory_name("Some category");
+    category.setName("Some category");
     category.setId(1L);
     category.setDeleted(false);
 

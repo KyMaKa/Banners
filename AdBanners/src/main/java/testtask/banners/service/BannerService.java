@@ -40,8 +40,8 @@ public class BannerService {
 
   public Banner updateBanner(Banner newBanner, Long id) {
     Banner banner = getBanner(id);
-    banner.setBanner_name(newBanner.getBanner_name());
-    banner.setBanner_text(newBanner.getBanner_text());
+    banner.setName(newBanner.getName());
+    banner.setText(newBanner.getText());
     banner.setPrice(newBanner.getPrice());
     banner.setDeleted(false);
     banner.setCategories(newBanner.getCategories());

@@ -21,9 +21,9 @@ public class Banner {
 
   @NonNull
   @Column(unique = true)
-  private String banner_name;
+  private String name;
 
-  private String banner_text;
+  private String text;
 
   private Integer price;
 
@@ -38,17 +38,17 @@ public class Banner {
     if (!(o instanceof Banner banner)) {
       return false;
     }
-    return getId().equals(banner.getId()) && getBanner_name().equals(banner.getBanner_name())
+    return getId().equals(banner.getId()) && getName().equals(banner.getName())
         && Objects.equals(getCategories(), banner.getCategories());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), getBanner_name());
+    return Objects.hash(getId(), getName());
   }
 
-  //It is optimal to use Set, because this reduces SQL operators while deleting.
-  //@JsonManagedReference
+  // It is optimal to use Set, because this reduces SQL operators while deleting.
+  // @JsonManagedReference
   @ManyToMany(mappedBy = "banners", fetch = FetchType.LAZY)
   private Set<Category> categories = new HashSet<>();
 
@@ -56,20 +56,20 @@ public class Banner {
     this.categories = categories;
   }
 
-  public String getBanner_name() {
-    return banner_name;
+  public String getName() {
+    return name;
   }
 
-  public void setBanner_name(String banner_name) {
-    this.banner_name = banner_name;
+  public void setName(String banner_name) {
+    this.name = banner_name;
   }
 
-  public String getBanner_text() {
-    return banner_text;
+  public String getText() {
+    return text;
   }
 
-  public void setBanner_text(String banner_text) {
-    this.banner_text = banner_text;
+  public void setText(String banner_text) {
+    this.text = banner_text;
   }
 
   public Integer getPrice() {
@@ -88,8 +88,8 @@ public class Banner {
   public String toString() {
     return "Banner{" +
         "id=" + id +
-        ", banner_name='" + banner_name + '\'' +
-        ", banner_text='" + banner_text + '\'' +
+        ", banner_name='" + name + '\'' +
+        ", banner_text='" + text + '\'' +
         ", price=" + price +
         ", deleted=" + deleted +
         '}';

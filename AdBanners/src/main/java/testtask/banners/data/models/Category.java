@@ -22,16 +22,14 @@ public class Category extends RepresentationModel<Category> {
 
   @NonNull
   @Column(unique = true)
-  private String category_name;
+  private String name;
 
   @Column(name = "deleted", nullable = false)
   private Boolean deleted;
 
-  //It is optimal to use Set, because this reduces SQL operators while deleting.
+  // It is optimal to use Set, because this reduces SQL operators while deleting.
   @JsonBackReference
-  @ManyToMany(fetch = FetchType.LAZY/*, cascade = {
-      CascadeType.PERSIST, CascadeType.MERGE
-  }*/)
+  @ManyToMany(fetch = FetchType.LAZY)
   private Set<Banner> banners = new HashSet<>();
 
   public Set<Banner> getBanners() {
@@ -58,14 +56,13 @@ public class Category extends RepresentationModel<Category> {
     this.id = id;
   }
 
-  public String getCategory_name() {
-    return category_name;
+  public String getName() {
+    return name;
   }
 
-  public void setCategory_name(String name) {
-    this.category_name = name;
+  public void setName(String name) {
+    this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -78,16 +75,15 @@ public class Category extends RepresentationModel<Category> {
     if (!super.equals(o)) {
       return false;
     }
-    return getId().equals(category.getId()) && getCategory_name().equals(
-        category.getCategory_name());
+    return getId().equals(category.getId()) && getName().equals(
+        category.getName());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), getId(), getCategory_name());
+    return Objects.hash(super.hashCode(), getId(), getName());
   }
 
-  //TODO: this method sucks i guess. Have to rewrite.
   public void addBanner(Banner banner) {
     this.banners.add(banner);
     banner.getCategories().add(this);
