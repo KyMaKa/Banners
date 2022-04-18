@@ -1,6 +1,6 @@
 import { BannerType } from "./Banners";
 
-export interface CategoryType extends BannerType {
+export interface CategoryType {
   id: number;
   name: string;
   deleted: boolean;

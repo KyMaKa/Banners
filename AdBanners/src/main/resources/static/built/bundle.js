@@ -2184,6 +2184,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ContentPrice__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ContentPrice */ "./frontend/src/components/layouts/Content/ContentPrice.tsx");
 /* harmony import */ var _ContentRequestID__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ContentRequestID */ "./frontend/src/components/layouts/Content/ContentRequestID.tsx");
 /* harmony import */ var _ContentText__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ContentText */ "./frontend/src/components/layouts/Content/ContentText.tsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -2196,36 +2208,58 @@ __webpack_require__.r(__webpack_exports__);
 var Content = function Content(_ref) {
   var element = _ref.element,
       activeTab = _ref.activeTab;
+
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentEmpty__WEBPACK_IMPORTED_MODULE_3__.ContentEmpty, null)),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      view = _React$useState2[0],
+      setView = _React$useState2[1];
+
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0__.useState(),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      category = _React$useState4[0],
+      setCategory = _React$useState4[1];
+
+  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0__.useState(),
+      _React$useState6 = _slicedToArray(_React$useState5, 2),
+      banner = _React$useState6[0],
+      setBanner = _React$useState6[1];
+
   react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
     onUpdate();
-  }, [activeTab]);
+    return function () {
+      setView( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentEmpty__WEBPACK_IMPORTED_MODULE_3__.ContentEmpty, null));
+    };
+  });
 
   function onUpdate() {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentEmpty__WEBPACK_IMPORTED_MODULE_3__.ContentEmpty, null);
-  }
+    //console.log(element);
+    if (element) setCategory(element);
+    if (element) setBanner(element);
+    if (banner != null) if (activeTab === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Banners) setView(bannerContent);
+    if (category != null) if (activeTab === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Categories) setView(categoryContent);
+  } //console.log(banner);
 
-  if (element === null) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentEmpty__WEBPACK_IMPORTED_MODULE_3__.ContentEmpty, null);
-  if (activeTab === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Banners) return bannerContent();
-  if (activeTab === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Categories) return categoryContent();
+
+  return view;
 
   function bannerContent() {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("section", {
       className: "content"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentHeader__WEBPACK_IMPORTED_MODULE_4__.ContentHeader, {
-      elementId: element.id,
-      elementName: element.name
+      elementId: banner.id,
+      elementName: banner.name
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "content__body"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "content__form"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentName__WEBPACK_IMPORTED_MODULE_5__.ContentName, {
-      elementName: element.name
+      elementName: banner.name
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentPrice__WEBPACK_IMPORTED_MODULE_6__.ContentPrice, {
-      elementPrice: element.price
+      elementPrice: banner.price
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentDropList__WEBPACK_IMPORTED_MODULE_2__.ContentDropList, {
-      categories: element.categories
+      categories: banner.categories
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentText__WEBPACK_IMPORTED_MODULE_8__.ContentText, {
-      elementText: element.text
+      elementText: banner.text
     }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("footer", {
       className: "content__footer"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -2241,16 +2275,16 @@ var Content = function Content(_ref) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("section", {
       className: "content"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentHeader__WEBPACK_IMPORTED_MODULE_4__.ContentHeader, {
-      elementId: element.id,
-      elementName: element.name
+      elementId: category.id,
+      elementName: category.name
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "content__body"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "content__form"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentName__WEBPACK_IMPORTED_MODULE_5__.ContentName, {
-      elementName: element.name
+      elementName: category.name
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentRequestID__WEBPACK_IMPORTED_MODULE_7__.ContentRequestID, {
-      elementName: element.name
+      elementName: category.name
     }))));
   }
 };
@@ -2501,15 +2535,11 @@ var Header = function Header(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
     href: "#",
     className: activeTab === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Banners ? "header__link header__link_active" : "header__link",
-    onClick: function onClick() {
-      return clickBanner();
-    }
+    onClick: clickBanner
   }, "Banners"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
     href: "#",
     className: activeTab === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Categories ? "header__link header__link_active" : "header__link",
-    onClick: function onClick() {
-      return clickCategory();
-    }
+    onClick: clickCategory
   }, "Categories")));
 };
 
@@ -2582,15 +2612,12 @@ function Main() {
     _services_CatergoriesService__WEBPACK_IMPORTED_MODULE_5__.CategoryService.getCategories().then(function (data) {
       setCategories(data);
     });
+    console.log(banners);
     return function () {};
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Header__WEBPACK_IMPORTED_MODULE_2__.Header, {
-    clickBanner: function clickBanner() {
-      return handleClickBanners();
-    },
-    clickCategory: function clickCategory() {
-      return handleClickCategories();
-    },
+    clickBanner: handleClickBanners,
+    clickCategory: handleClickCategories,
     activeTab: activeTab
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("main", {
     className: "main"
@@ -2600,9 +2627,7 @@ function Main() {
     activeTab: activeTab,
     banners: banners,
     categories: categories,
-    handeClickedItem: function handeClickedItem(e) {
-      return handleSelectedContent(e);
-    }
+    handeClickedItem: handleSelectedContent
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Content_Content__WEBPACK_IMPORTED_MODULE_6__.Content, {
     element: clickedItem,
     activeTab: activeTab
@@ -2619,7 +2644,7 @@ function Main() {
   }
 
   function handleSelectedContent(e) {
-    console.log("ckicked sidebar item");
+    console.log("clicked sidebar item");
     setClicledItem(e);
   }
 }
@@ -2697,7 +2722,16 @@ var SideBar = function SideBar(_ref) {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState2 = _slicedToArray(_useState, 2),
       activeItem = _useState2[0],
-      setActiveItem = _useState2[1];
+      setActiveItem = _useState2[1]; // const [view, setView] = useState(renderList(banners));
+  // const [placeholder, setPlaceholder] = useState<string>("Banners");
+  // if (activeTab === ActiveTab.Banners) {
+  //   setView(() => renderList(banners));
+  //   setPlaceholder("Banners");
+  // } else if (activeTab === ActiveTab.Categories) {
+  //   setView(() => renderList(categories));
+  //   setPlaceholder("Categories");
+  // }
+
 
   var view;
   var placeholder;

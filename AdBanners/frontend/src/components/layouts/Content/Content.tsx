@@ -18,31 +18,40 @@ interface Props {
 }
 
 export const Content: FC<Props> = ({ element, activeTab }) => {
+  const [view, setView] = React.useState(<ContentEmpty />);
+  const [category, setCategory] = React.useState<CategoryType>();
+  const [banner, setBanner] = React.useState<BannerType>();
   React.useEffect(() => {
     onUpdate();
-  }, [activeTab]);
+    return () => {
+      setView(<ContentEmpty />);
+    };
+  });
 
   function onUpdate() {
-    return <ContentEmpty />;
+    //console.log(element);
+    if (element as BannerType) setCategory(element);
+    if (element as CategoryType) setBanner(element);
+    if (banner != null)
+      if (activeTab === ActiveTab.Banners) setView(bannerContent);
+    if (category != null)
+      if (activeTab === ActiveTab.Categories) setView(categoryContent);
   }
 
-  if (element === null) return <ContentEmpty />;
-
-  if (activeTab === ActiveTab.Banners) return bannerContent();
-
-  if (activeTab === ActiveTab.Categories) return categoryContent();
+  //console.log(banner);
+  return view;
 
   function bannerContent() {
     return (
       <section className="content">
-        <ContentHeader elementId={element.id} elementName={element.name} />
+        <ContentHeader elementId={banner.id} elementName={banner.name} />
 
         <div className="content__body">
           <div className="content__form">
-            <ContentName elementName={element.name} />
-            <ContentPrice elementPrice={element.price} />
-            <ContentDropList categories={element.categories} />
-            <ContentText elementText={element.text} />
+            <ContentName elementName={banner.name} />
+            <ContentPrice elementPrice={banner.price} />
+            <ContentDropList categories={banner.categories} />
+            <ContentText elementText={banner.text} />
           </div>
         </div>
 
@@ -65,11 +74,11 @@ export const Content: FC<Props> = ({ element, activeTab }) => {
   function categoryContent() {
     return (
       <section className="content">
-        <ContentHeader elementId={element.id} elementName={element.name} />
+        <ContentHeader elementId={category.id} elementName={category.name} />
         <div className="content__body">
           <div className="content__form">
-            <ContentName elementName={element.name} />
-            <ContentRequestID elementName={element.name} />
+            <ContentName elementName={category.name} />
+            <ContentRequestID elementName={category.name} />
           </div>
         </div>
       </section>

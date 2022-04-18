@@ -25,14 +25,15 @@ export default function Main() {
     CategoryService.getCategories().then((data) => {
       setCategories(data);
     });
+    console.log(banners);
     return () => {};
   }, []);
 
   return (
     <>
       <Header
-        clickBanner={() => handleClickBanners()}
-        clickCategory={() => handleClickCategories()}
+        clickBanner={handleClickBanners}
+        clickCategory={handleClickCategories}
         activeTab={activeTab}
       />
       <main className="main">
@@ -41,7 +42,7 @@ export default function Main() {
             activeTab={activeTab}
             banners={banners}
             categories={categories}
-            handeClickedItem={(e) => handleSelectedContent(e)}
+            handeClickedItem={handleSelectedContent}
           />
         </aside>
         <Content element={clickedItem} activeTab={activeTab} />
@@ -60,7 +61,7 @@ export default function Main() {
   }
 
   function handleSelectedContent(e: CategoryType | BannerType) {
-    console.log("ckicked sidebar item");
+    console.log("clicked sidebar item");
     setClicledItem(e);
   }
 }

@@ -23,7 +23,7 @@ export const Header: FC<Props> = ({
               ? "header__link header__link_active"
               : "header__link"
           }
-          onClick={() => clickBanner()}
+          onClick={clickBanner}
         >
           Banners
         </a>
@@ -34,7 +34,7 @@ export const Header: FC<Props> = ({
               ? "header__link header__link_active"
               : "header__link"
           }
-          onClick={() => clickCategory()}
+          onClick={clickCategory}
         >
           Categories
         </a>

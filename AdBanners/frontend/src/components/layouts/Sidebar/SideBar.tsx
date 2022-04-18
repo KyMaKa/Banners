@@ -20,8 +20,19 @@ export const SideBar: FC<Props> = ({
   handeClickedItem,
 }) => {
   const [activeItem, setActiveItem] = useState<number>();
+  // const [view, setView] = useState(renderList(banners));
+  // const [placeholder, setPlaceholder] = useState<string>("Banners");
+  // if (activeTab === ActiveTab.Banners) {
+  //   setView(() => renderList(banners));
+  //   setPlaceholder("Banners");
+  // } else if (activeTab === ActiveTab.Categories) {
+  //   setView(() => renderList(categories));
+  //   setPlaceholder("Categories");
+  // }
+
   let view: ReturnType<typeof renderList>;
   let placeholder: string;
+
   if (activeTab === ActiveTab.Banners) {
     view = renderList(banners);
     placeholder = "Banners";
