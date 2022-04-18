@@ -19,7 +19,7 @@ export const Header: FC<Props> = ({
         <a
           href="#"
           className={
-            activeTab === ActiveTab.Banner
+            activeTab === ActiveTab.Banners
               ? "header__link header__link_active"
               : "header__link"
           }
@@ -30,7 +30,7 @@ export const Header: FC<Props> = ({
         <a
           href="#"
           className={
-            activeTab === ActiveTab.Category
+            activeTab === ActiveTab.Categories
               ? "header__link header__link_active"
               : "header__link"
           }

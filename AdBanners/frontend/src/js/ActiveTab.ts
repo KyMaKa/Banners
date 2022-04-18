@@ -1,4 +1,4 @@
 export enum ActiveTab {
-  Banner,
-  Category,
+  Banners = "Banner",
+  Categories = "Category",
 }

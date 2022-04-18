@@ -7,7 +7,12 @@ interface Props {
 }
 
 export const SidebarSearch: FC<Props> = ({ activeTab }) => {
-  const placeholder = `Enter ${activeTab.toString} name...`;
+  let placeholder;
+  if (activeTab === ActiveTab.Banners) {
+    placeholder = `Enter banner name...`;
+  } else if (activeTab === ActiveTab.Categories) {
+    placeholder = "Enter category name...";
+  }
   return (
     <div className="sidebar__search">
       <input

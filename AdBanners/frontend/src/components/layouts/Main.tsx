@@ -7,21 +7,21 @@ import { BannerService } from "../services/BannersService";
 import { CategoryService } from "../services/CatergoriesService";
 import { BannerType } from "../models/Banners";
 import { CategoryType } from "../models/Categories";
+import { ContentEmpty } from "./Content/ContentEmpty";
+import { Content } from "./Content/Content";
 
 export default function Main() {
-  const [activeTab, setActiveTab] = useState(ActiveTab.Banner);
+  const [activeTab, setActiveTab] = useState(ActiveTab.Banners);
   const [banners, setBanners] = useState<BannerType[]>([]);
   const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [clickedItem, setClicledItem] = useState<CategoryType | BannerType>(
+    null
+  );
 
   useEffect(() => {
     BannerService.getBanners().then((data) => {
       setBanners(data);
     });
-    /*axios.get('http://localhost:8080/banners/all')
-    .then(r => {
-      const allBanners = r.data._embedded.bannerList
-      setBanners(allBanners);
-    });*/
     CategoryService.getCategories().then((data) => {
       setCategories(data);
     });
@@ -36,23 +36,31 @@ export default function Main() {
         activeTab={activeTab}
       />
       <main className="main">
-        <SideBar activeTab={activeTab}
-          banners={banners}
-          categories={categories}
-        />
-
-        <section className="content content_center">Choose an action.</section>
+        <aside className="sidebar">
+          <SideBar
+            activeTab={activeTab}
+            banners={banners}
+            categories={categories}
+            handeClickedItem={(e) => handleSelectedContent(e)}
+          />
+        </aside>
+        <Content element={clickedItem} activeTab={activeTab} />
       </main>
     </>
   );
 
   function handleClickBanners() {
     console.log("clicked");
-    setActiveTab(ActiveTab.Banner);
+    setActiveTab(ActiveTab.Banners);
   }
 
   function handleClickCategories() {
     console.log("clicked");
-    setActiveTab(ActiveTab.Category);
+    setActiveTab(ActiveTab.Categories);
+  }
+
+  function handleSelectedContent(e: CategoryType | BannerType) {
+    console.log("ckicked sidebar item");
+    setClicledItem(e);
   }
 }
