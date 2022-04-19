@@ -9,7 +9,9 @@ interface Props {
 export const Footer: FC<Props> = ({ activeTab }) => {
   return (
     <footer className="sidebar__footer">
-      <button onClick={() => activeTab} className="sidebar__submit-button">
+      <button className="sidebar__submit-button"
+        onClick={null}
+      >
         Create new {activeTab}
       </button>
     </footer>

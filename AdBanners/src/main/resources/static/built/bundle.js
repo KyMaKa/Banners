@@ -2177,13 +2177,63 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _js_ActiveTab__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../js/ActiveTab */ "./frontend/src/js/ActiveTab.ts");
-/* harmony import */ var _ContentDropList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ContentDropList */ "./frontend/src/components/layouts/Content/ContentDropList.tsx");
-/* harmony import */ var _ContentEmpty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ContentEmpty */ "./frontend/src/components/layouts/Content/ContentEmpty.tsx");
+/* harmony import */ var _ContentEmpty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ContentEmpty */ "./frontend/src/components/layouts/Content/ContentEmpty.tsx");
+/* harmony import */ var _ContentBannerForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ContentBannerForm */ "./frontend/src/components/layouts/Content/ContentBannerForm.tsx");
 /* harmony import */ var _ContentHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ContentHeader */ "./frontend/src/components/layouts/Content/ContentHeader.tsx");
-/* harmony import */ var _ContentName__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ContentName */ "./frontend/src/components/layouts/Content/ContentName.tsx");
-/* harmony import */ var _ContentPrice__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ContentPrice */ "./frontend/src/components/layouts/Content/ContentPrice.tsx");
-/* harmony import */ var _ContentRequestID__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ContentRequestID */ "./frontend/src/components/layouts/Content/ContentRequestID.tsx");
-/* harmony import */ var _ContentText__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ContentText */ "./frontend/src/components/layouts/Content/ContentText.tsx");
+/* harmony import */ var _ContentCategoryForm__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ContentCategoryForm */ "./frontend/src/components/layouts/Content/ContentCategoryForm.tsx");
+
+
+
+
+
+
+var Content = function Content(_ref) {
+  var element = _ref.element,
+      type = _ref.type;
+  if (element === null) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentEmpty__WEBPACK_IMPORTED_MODULE_2__.ContentEmpty, null);
+  if (type === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Banners) return bannerContent();
+  return categoryContent();
+
+  function bannerContent() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("section", {
+      className: "content"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentHeader__WEBPACK_IMPORTED_MODULE_4__.ContentHeader, {
+      elementId: element.id,
+      elementName: element.name
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentBannerForm__WEBPACK_IMPORTED_MODULE_3__.ContentBannerForm, {
+      element: element
+    }));
+  }
+
+  function categoryContent() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("section", {
+      className: "content"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentHeader__WEBPACK_IMPORTED_MODULE_4__.ContentHeader, {
+      elementId: element.id,
+      elementName: element.name
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentCategoryForm__WEBPACK_IMPORTED_MODULE_5__.ContentCategoryForm, {
+      element: element
+    }));
+  }
+};
+
+/***/ }),
+
+/***/ "./frontend/src/components/layouts/Content/ContentBannerForm.tsx":
+/*!***********************************************************************!*\
+  !*** ./frontend/src/components/layouts/Content/ContentBannerForm.tsx ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ContentBannerForm": () => (/* binding */ ContentBannerForm)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _services_BannersService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/BannersService */ "./frontend/src/components/services/BannersService.ts");
+/* harmony import */ var _ContentFooter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ContentFooter */ "./frontend/src/components/layouts/Content/ContentFooter.tsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2200,114 +2250,63 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+var ContentBannerForm = function ContentBannerForm(_ref) {
+  var element = _ref.element;
 
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(element.name),
+      _useState2 = _slicedToArray(_useState, 2),
+      name = _useState2[0],
+      setName = _useState2[1];
 
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(element.price),
+      _useState4 = _slicedToArray(_useState3, 2),
+      price = _useState4[0],
+      setPrice = _useState4[1];
 
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(element.text),
+      _useState6 = _slicedToArray(_useState5, 2),
+      text = _useState6[0],
+      setText = _useState6[1];
 
-
-var Content = function Content(_ref) {
-  var element = _ref.element,
-      activeTab = _ref.activeTab;
-
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentEmpty__WEBPACK_IMPORTED_MODULE_3__.ContentEmpty, null)),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      view = _React$useState2[0],
-      setView = _React$useState2[1];
-
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0__.useState(),
-      _React$useState4 = _slicedToArray(_React$useState3, 2),
-      category = _React$useState4[0],
-      setCategory = _React$useState4[1];
-
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0__.useState(),
-      _React$useState6 = _slicedToArray(_React$useState5, 2),
-      banner = _React$useState6[0],
-      setBanner = _React$useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(element.categories),
+      _useState8 = _slicedToArray(_useState7, 2),
+      categories = _useState8[0],
+      setCategories = _useState8[1];
 
   react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
-    onUpdate();
-    return function () {
-      setView( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentEmpty__WEBPACK_IMPORTED_MODULE_3__.ContentEmpty, null));
-    };
-  });
-
-  function onUpdate() {
-    //console.log(element);
-    if (element) setCategory(element);
-    if (element) setBanner(element);
-    if (banner != null) if (activeTab === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Banners) setView(bannerContent);
-    if (category != null) if (activeTab === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Categories) setView(categoryContent);
-  } //console.log(banner);
-
-
-  return view;
-
-  function bannerContent() {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("section", {
-      className: "content"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentHeader__WEBPACK_IMPORTED_MODULE_4__.ContentHeader, {
-      elementId: banner.id,
-      elementName: banner.name
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "content__body"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "content__form"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentName__WEBPACK_IMPORTED_MODULE_5__.ContentName, {
-      elementName: banner.name
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentPrice__WEBPACK_IMPORTED_MODULE_6__.ContentPrice, {
-      elementPrice: banner.price
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentDropList__WEBPACK_IMPORTED_MODULE_2__.ContentDropList, {
-      categories: banner.categories
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentText__WEBPACK_IMPORTED_MODULE_8__.ContentText, {
-      elementText: banner.text
-    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("footer", {
-      className: "content__footer"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "content__buttons"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-      className: "content__button content__button_dark"
-    }, "Save"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-      className: "content__button content__button_red"
-    }, "Delete"))));
-  }
-
-  function categoryContent() {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("section", {
-      className: "content"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentHeader__WEBPACK_IMPORTED_MODULE_4__.ContentHeader, {
-      elementId: category.id,
-      elementName: category.name
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "content__body"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "content__form"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentName__WEBPACK_IMPORTED_MODULE_5__.ContentName, {
-      elementName: category.name
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentRequestID__WEBPACK_IMPORTED_MODULE_7__.ContentRequestID, {
-      elementName: category.name
-    }))));
-  }
-};
-
-/***/ }),
-
-/***/ "./frontend/src/components/layouts/Content/ContentDropList.tsx":
-/*!*********************************************************************!*\
-  !*** ./frontend/src/components/layouts/Content/ContentDropList.tsx ***!
-  \*********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ContentDropList": () => (/* binding */ ContentDropList)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-var ContentDropList = function ContentDropList(_ref) {
-  var categories = _ref.categories;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    setName(element.name);
+    setPrice(element.price);
+    setCategories(element.categories);
+    setText(element.text);
+    console.log(element);
+  }, [element]);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form-item-title"
+  }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form-item-content"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    className: "content__input",
+    type: "text",
+    value: name,
+    onChange: handleChangeName
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form-item-title"
+  }, "Price"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form-item-content"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    className: "content__input",
+    type: "text",
+    value: price,
+    onChange: handleChangePrice
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "content__form-item"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "content__form-item-title"
@@ -2320,7 +2319,143 @@ var ContentDropList = function ContentDropList(_ref) {
       value: "cat",
       key: category.id
     }, category.name);
-  }))));
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form-item-title"
+  }, "Text"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form-item-content"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("textarea", {
+    className: "content__textarea",
+    value: text,
+    onChange: handleChangeText
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentFooter__WEBPACK_IMPORTED_MODULE_2__.ContentFooter, {
+    updateItem: updateBanner,
+    deleteItem: deleteBanner
+  }));
+
+  function handleChangeName(event) {
+    var value = event.target.value;
+    setName(value);
+    console.log(value); //element.name = value;
+  }
+
+  function handleChangePrice(event) {
+    var value = event.target.value;
+    setPrice(value); //element.price = value;
+  }
+
+  function handleChangeText(event) {
+    var value = event.target.value;
+    setText(value); //element.text = value;
+  }
+
+  function updateBanner() {
+    element.name = name;
+    element.price = price;
+    element.text = text;
+    _services_BannersService__WEBPACK_IMPORTED_MODULE_1__.BannerService.updateBanner(element.id, element).then(function (data) {
+      console.log(data);
+    });
+  }
+
+  function deleteBanner() {
+    _services_BannersService__WEBPACK_IMPORTED_MODULE_1__.BannerService.deleteBanner(element.id);
+  }
+};
+
+/***/ }),
+
+/***/ "./frontend/src/components/layouts/Content/ContentCategoryForm.tsx":
+/*!*************************************************************************!*\
+  !*** ./frontend/src/components/layouts/Content/ContentCategoryForm.tsx ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ContentCategoryForm": () => (/* binding */ ContentCategoryForm)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _services_BannersService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/BannersService */ "./frontend/src/components/services/BannersService.ts");
+/* harmony import */ var _ContentFooter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ContentFooter */ "./frontend/src/components/layouts/Content/ContentFooter.tsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+var ContentCategoryForm = function ContentCategoryForm(_ref) {
+  var element = _ref.element;
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(element.name),
+      _useState2 = _slicedToArray(_useState, 2),
+      name = _useState2[0],
+      setName = _useState2[1];
+
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+    setName(element.name);
+    console.log(element);
+  }, [element]);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form-item-title"
+  }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form-item-content"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    className: "content__input",
+    type: "text",
+    value: name,
+    onChange: handleChangeName
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form-item-title"
+  }, "Request ID"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__form-item-content"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    className: "content__input",
+    type: "text",
+    readOnly: true,
+    value: name
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentFooter__WEBPACK_IMPORTED_MODULE_2__.ContentFooter, {
+    updateItem: updateCategory,
+    deleteItem: deleteCategory
+  }));
+
+  function handleChangeName(event) {
+    var value = event.target.value;
+    setName(value);
+    console.log(value); //element.name = value;
+  }
+
+  function updateCategory() {
+    element.name = name;
+    _services_BannersService__WEBPACK_IMPORTED_MODULE_1__.BannerService.updateBanner(element.id, element).then(function (data) {
+      console.log(data);
+    });
+  }
+
+  function deleteCategory() {
+    _services_BannersService__WEBPACK_IMPORTED_MODULE_1__.BannerService.deleteBanner(element.id);
+  }
 };
 
 /***/ }),
@@ -2344,6 +2479,38 @@ function ContentEmpty() {
     className: "content content_center"
   }, "Choose an action.");
 }
+
+/***/ }),
+
+/***/ "./frontend/src/components/layouts/Content/ContentFooter.tsx":
+/*!*******************************************************************!*\
+  !*** ./frontend/src/components/layouts/Content/ContentFooter.tsx ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ContentFooter": () => (/* binding */ ContentFooter)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var ContentFooter = function ContentFooter(_ref) {
+  var updateItem = _ref.updateItem,
+      deleteItem = _ref.deleteItem;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("footer", {
+    className: "content__footer"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "content__buttons"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: "content__button content__button_dark",
+    onClick: updateItem
+  }, "Save"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: "content__button content__button_red",
+    onClick: deleteItem
+  }, "Delete")));
+};
 
 /***/ }),
 
@@ -2381,129 +2548,6 @@ var ContentHeader = function ContentHeader(_ref) {
       className: "content__header-text"
     }, elementName + " ID: " + elementId));
   }
-};
-
-/***/ }),
-
-/***/ "./frontend/src/components/layouts/Content/ContentName.tsx":
-/*!*****************************************************************!*\
-  !*** ./frontend/src/components/layouts/Content/ContentName.tsx ***!
-  \*****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ContentName": () => (/* binding */ ContentName)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-var ContentName = function ContentName(_ref) {
-  var elementName = _ref.elementName;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "content__form-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "content__form-item-title"
-  }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "content__form-item-content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
-    className: "content__input",
-    type: "text",
-    value: elementName
-  })));
-};
-
-/***/ }),
-
-/***/ "./frontend/src/components/layouts/Content/ContentPrice.tsx":
-/*!******************************************************************!*\
-  !*** ./frontend/src/components/layouts/Content/ContentPrice.tsx ***!
-  \******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ContentPrice": () => (/* binding */ ContentPrice)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-var ContentPrice = function ContentPrice(_ref) {
-  var elementPrice = _ref.elementPrice;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "content__form-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "content__form-item-title"
-  }, "Price"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "content__form-item-content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
-    className: "content__input",
-    type: "text",
-    value: elementPrice
-  })));
-};
-
-/***/ }),
-
-/***/ "./frontend/src/components/layouts/Content/ContentRequestID.tsx":
-/*!**********************************************************************!*\
-  !*** ./frontend/src/components/layouts/Content/ContentRequestID.tsx ***!
-  \**********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ContentRequestID": () => (/* binding */ ContentRequestID)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-var ContentRequestID = function ContentRequestID(_ref) {
-  var elementName = _ref.elementName;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "content__form-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "content__form-item-title"
-  }, "Request ID"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "content__form-item-content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
-    className: "content__input",
-    type: "text",
-    value: elementName
-  })));
-};
-
-/***/ }),
-
-/***/ "./frontend/src/components/layouts/Content/ContentText.tsx":
-/*!*****************************************************************!*\
-  !*** ./frontend/src/components/layouts/Content/ContentText.tsx ***!
-  \*****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ContentText": () => (/* binding */ ContentText)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-var ContentText = function ContentText(_ref) {
-  var elementText = _ref.elementText;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "content__form-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "content__form-item-title"
-  }, "Text"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "content__form-item-content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("textarea", {
-    className: "content__textarea",
-    value: elementText
-  })));
 };
 
 /***/ }),
@@ -2587,23 +2631,28 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function Main() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_js_ActiveTab__WEBPACK_IMPORTED_MODULE_3__.ActiveTab.Banners),
       _useState2 = _slicedToArray(_useState, 2),
-      activeTab = _useState2[0],
-      setActiveTab = _useState2[1];
+      type = _useState2[0],
+      setType = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_js_ActiveTab__WEBPACK_IMPORTED_MODULE_3__.ActiveTab.Banners),
       _useState4 = _slicedToArray(_useState3, 2),
-      banners = _useState4[0],
-      setBanners = _useState4[1];
+      activeTab = _useState4[0],
+      setActiveTab = _useState4[1];
 
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState6 = _slicedToArray(_useState5, 2),
-      categories = _useState6[0],
-      setCategories = _useState6[1];
+      banners = _useState6[0],
+      setBanners = _useState6[1];
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState8 = _slicedToArray(_useState7, 2),
-      clickedItem = _useState8[0],
-      setClicledItem = _useState8[1];
+      categories = _useState8[0],
+      setCategories = _useState8[1];
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState10 = _slicedToArray(_useState9, 2),
+      clickedItem = _useState10[0],
+      setClicledItem = _useState10[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     _services_BannersService__WEBPACK_IMPORTED_MODULE_4__.BannerService.getBanners().then(function (data) {
@@ -2615,6 +2664,11 @@ function Main() {
     console.log(banners);
     return function () {};
   }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    return function () {
+      return setClicledItem(null);
+    };
+  }, [activeTab]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Header__WEBPACK_IMPORTED_MODULE_2__.Header, {
     clickBanner: handleClickBanners,
     clickCategory: handleClickCategories,
@@ -2630,7 +2684,7 @@ function Main() {
     handeClickedItem: handleSelectedContent
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Content_Content__WEBPACK_IMPORTED_MODULE_6__.Content, {
     element: clickedItem,
-    activeTab: activeTab
+    type: type
   })));
 
   function handleClickBanners() {
@@ -2645,7 +2699,9 @@ function Main() {
 
   function handleSelectedContent(e) {
     console.log("clicked sidebar item");
-    setClicledItem(e);
+    setClicledItem(e); //For some reason i have to do this. Just using activeTab isn't working for Content.
+
+    activeTab === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_3__.ActiveTab.Banners ? setType(_js_ActiveTab__WEBPACK_IMPORTED_MODULE_3__.ActiveTab.Banners) : setType(_js_ActiveTab__WEBPACK_IMPORTED_MODULE_3__.ActiveTab.Categories);
   }
 }
 
@@ -2671,10 +2727,8 @@ var Footer = function Footer(_ref) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("footer", {
     className: "sidebar__footer"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    onClick: function onClick() {
-      return activeTab;
-    },
-    className: "sidebar__submit-button"
+    className: "sidebar__submit-button",
+    onClick: null
   }, "Create new ", activeTab));
 };
 
@@ -2722,17 +2776,13 @@ var SideBar = function SideBar(_ref) {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState2 = _slicedToArray(_useState, 2),
       activeItem = _useState2[0],
-      setActiveItem = _useState2[1]; // const [view, setView] = useState(renderList(banners));
-  // const [placeholder, setPlaceholder] = useState<string>("Banners");
-  // if (activeTab === ActiveTab.Banners) {
-  //   setView(() => renderList(banners));
-  //   setPlaceholder("Banners");
-  // } else if (activeTab === ActiveTab.Categories) {
-  //   setView(() => renderList(categories));
-  //   setPlaceholder("Categories");
-  // }
+      setActiveItem = _useState2[1];
 
-
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+    return function () {
+      setActiveItem(null);
+    };
+  }, [activeTab]);
   var view;
   var placeholder;
 
@@ -2847,6 +2897,12 @@ var request = {
   },
   getSingle: function getSingle(url) {
     return instance.get(url).then(responseSingle);
+  },
+  updateBanner: function updateBanner(url, body) {
+    return instance.put(url, body).then(responseSingle);
+  },
+  deleteBanner: function deleteBanner(url) {
+    return instance["delete"](url).then(responseSingle);
   }
 };
 var BannerService = {
@@ -2855,6 +2911,12 @@ var BannerService = {
   },
   getBanner: function getBanner(id) {
     return request.getSingle("banners/".concat(id));
+  },
+  updateBanner: function updateBanner(id, body) {
+    return request.updateBanner("banners/".concat(id), body);
+  },
+  deleteBanner: function deleteBanner(id) {
+    return request.deleteBanner("banners/".concat(id));
   }
 };
 
