@@ -2199,7 +2199,8 @@ var Content = function Content(_ref) {
       className: "content"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentHeader__WEBPACK_IMPORTED_MODULE_4__.ContentHeader, {
       elementId: element.id,
-      elementName: element.name
+      elementName: element.name,
+      activeTab: type
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentBannerForm__WEBPACK_IMPORTED_MODULE_3__.ContentBannerForm, {
       element: element
     }));
@@ -2210,7 +2211,8 @@ var Content = function Content(_ref) {
       className: "content"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentHeader__WEBPACK_IMPORTED_MODULE_4__.ContentHeader, {
       elementId: element.id,
-      elementName: element.name
+      elementName: element.name,
+      activeTab: type
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentCategoryForm__WEBPACK_IMPORTED_MODULE_5__.ContentCategoryForm, {
       element: element
     }));
@@ -2233,7 +2235,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _services_BannersService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/BannersService */ "./frontend/src/components/services/BannersService.ts");
-/* harmony import */ var _ContentFooter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ContentFooter */ "./frontend/src/components/layouts/Content/ContentFooter.tsx");
+/* harmony import */ var _Validation_Error_Error__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Validation/Error/Error */ "./frontend/src/components/layouts/Validation/Error/Error.tsx");
+/* harmony import */ var _Validation_Success_Success__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Validation/Success/Success */ "./frontend/src/components/layouts/Validation/Success/Success.tsx");
+/* harmony import */ var _ContentFooter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ContentFooter */ "./frontend/src/components/layouts/Content/ContentFooter.tsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2250,36 +2254,52 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
 var ContentBannerForm = function ContentBannerForm(_ref) {
   var element = _ref.element;
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(element.name),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
-      name = _useState2[0],
-      setName = _useState2[1];
+      status = _useState2[0],
+      setStatus = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(element.price),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState4 = _slicedToArray(_useState3, 2),
-      price = _useState4[0],
-      setPrice = _useState4[1];
+      message = _useState4[0],
+      setMessage = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(element.text),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(element.name),
       _useState6 = _slicedToArray(_useState5, 2),
-      text = _useState6[0],
-      setText = _useState6[1];
+      name = _useState6[0],
+      setName = _useState6[1];
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(element.categories),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(element.price),
       _useState8 = _slicedToArray(_useState7, 2),
-      categories = _useState8[0],
-      setCategories = _useState8[1];
+      price = _useState8[0],
+      setPrice = _useState8[1];
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(element.text),
+      _useState10 = _slicedToArray(_useState9, 2),
+      text = _useState10[0],
+      setText = _useState10[1];
+
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(element.categories),
+      _useState12 = _slicedToArray(_useState11, 2),
+      categories = _useState12[0],
+      setCategories = _useState12[1];
 
   react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
     setName(element.name);
     setPrice(element.price);
     setCategories(element.categories);
     setText(element.text);
-    console.log(element);
+    setStatus(null);
+    setMessage("");
   }, [element]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+    setStatus(null);
+  }, [name]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "content__body"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -2303,7 +2323,7 @@ var ContentBannerForm = function ContentBannerForm(_ref) {
     className: "content__form-item-content"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
     className: "content__input",
-    type: "text",
+    type: "number",
     value: price,
     onChange: handleChangePrice
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -2329,38 +2349,67 @@ var ContentBannerForm = function ContentBannerForm(_ref) {
     className: "content__textarea",
     value: text,
     onChange: handleChangeText
-  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentFooter__WEBPACK_IMPORTED_MODULE_2__.ContentFooter, {
-    updateItem: updateBanner,
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentFooter__WEBPACK_IMPORTED_MODULE_4__.ContentFooter, {
+    updateItem: element.id === 0 ? addBanner : updateBanner,
     deleteItem: deleteBanner
-  }));
+  }), status >= 400 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Validation_Error_Error__WEBPACK_IMPORTED_MODULE_2__.Error, {
+    message: message
+  }) : null, status < 300 && status != null ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Validation_Success_Success__WEBPACK_IMPORTED_MODULE_3__.Success, {
+    message: message
+  }) : null);
 
   function handleChangeName(event) {
     var value = event.target.value;
     setName(value);
-    console.log(value); //element.name = value;
   }
 
   function handleChangePrice(event) {
     var value = event.target.value;
-    setPrice(value); //element.price = value;
+    setPrice(value);
   }
 
   function handleChangeText(event) {
     var value = event.target.value;
-    setText(value); //element.text = value;
+    if (value) setText(value);
   }
 
   function updateBanner() {
     element.name = name;
     element.price = price;
+    element.categories = categories;
     element.text = text;
-    _services_BannersService__WEBPACK_IMPORTED_MODULE_1__.BannerService.updateBanner(element.id, element).then(function (data) {
-      console.log(data);
+    _services_BannersService__WEBPACK_IMPORTED_MODULE_1__.BannerService.updateBanner(element.id, element).then(function (response) {
+      setMessage("Banner updated.");
+      console.log(response.status);
+      setStatus(response.status);
+    })["catch"](function (error) {
+      setMessage(error.response.data.detail);
+      setStatus(error.response.status);
     });
   }
 
   function deleteBanner() {
-    _services_BannersService__WEBPACK_IMPORTED_MODULE_1__.BannerService.deleteBanner(element.id);
+    _services_BannersService__WEBPACK_IMPORTED_MODULE_1__.BannerService.deleteBanner(element.id).then(function (response) {
+      setMessage("Banner deleted.");
+      setStatus(response.status);
+    })["catch"](function (error) {
+      setMessage(error.response.data.detail);
+      setStatus(error.response.status);
+    });
+  }
+
+  function addBanner() {
+    element.name = name;
+    element.price = price;
+    element.categories = categories;
+    element.text = text;
+    _services_BannersService__WEBPACK_IMPORTED_MODULE_1__.BannerService.postBanner(element).then(function (response) {
+      setMessage("Banner added.");
+      setStatus(response.status);
+    })["catch"](function (error) {
+      setMessage(error.response.data.detail);
+      setStatus(error.response.status);
+    });
   }
 };
 
@@ -2379,8 +2428,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _services_BannersService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/BannersService */ "./frontend/src/components/services/BannersService.ts");
-/* harmony import */ var _ContentFooter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ContentFooter */ "./frontend/src/components/layouts/Content/ContentFooter.tsx");
+/* harmony import */ var _services_CatergoriesService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/CatergoriesService */ "./frontend/src/components/services/CatergoriesService.ts");
+/* harmony import */ var _Validation_Error_Error__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Validation/Error/Error */ "./frontend/src/components/layouts/Validation/Error/Error.tsx");
+/* harmony import */ var _Validation_Success_Success__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Validation/Success/Success */ "./frontend/src/components/layouts/Validation/Success/Success.tsx");
+/* harmony import */ var _ContentFooter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ContentFooter */ "./frontend/src/components/layouts/Content/ContentFooter.tsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2397,6 +2448,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
 var ContentCategoryForm = function ContentCategoryForm(_ref) {
   var element = _ref.element;
 
@@ -2405,10 +2458,24 @@ var ContentCategoryForm = function ContentCategoryForm(_ref) {
       name = _useState2[0],
       setName = _useState2[1];
 
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState4 = _slicedToArray(_useState3, 2),
+      status = _useState4[0],
+      setStatus = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+      _useState6 = _slicedToArray(_useState5, 2),
+      message = _useState6[0],
+      setMessage = _useState6[1];
+
   react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
     setName(element.name);
-    console.log(element);
+    setStatus(null);
+    setMessage("");
   }, [element]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+    setStatus(null);
+  }, [name]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "content__body"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -2435,26 +2502,52 @@ var ContentCategoryForm = function ContentCategoryForm(_ref) {
     type: "text",
     readOnly: true,
     value: name
-  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentFooter__WEBPACK_IMPORTED_MODULE_2__.ContentFooter, {
-    updateItem: updateCategory,
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentFooter__WEBPACK_IMPORTED_MODULE_4__.ContentFooter, {
+    updateItem: element.id === 0 ? addCategory : updateCategory,
     deleteItem: deleteCategory
-  }));
+  }), status >= 400 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Validation_Error_Error__WEBPACK_IMPORTED_MODULE_2__.Error, {
+    message: message
+  }) : null, status < 300 && status != null ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Validation_Success_Success__WEBPACK_IMPORTED_MODULE_3__.Success, {
+    message: message
+  }) : null);
 
   function handleChangeName(event) {
     var value = event.target.value;
     setName(value);
-    console.log(value); //element.name = value;
+    console.log(value);
   }
 
   function updateCategory() {
     element.name = name;
-    _services_BannersService__WEBPACK_IMPORTED_MODULE_1__.BannerService.updateBanner(element.id, element).then(function (data) {
-      console.log(data);
+    _services_CatergoriesService__WEBPACK_IMPORTED_MODULE_1__.CategoryService.updateCategory(element.id, element).then(function (response) {
+      setMessage("Category updated.");
+      console.log(response.status);
+      setStatus(response.status);
+    })["catch"](function (error) {
+      setMessage(error.response.data.detail);
+      setStatus(error.response.status);
     });
   }
 
   function deleteCategory() {
-    _services_BannersService__WEBPACK_IMPORTED_MODULE_1__.BannerService.deleteBanner(element.id);
+    _services_CatergoriesService__WEBPACK_IMPORTED_MODULE_1__.CategoryService.deleteCategory(element.id).then(function (response) {
+      setMessage("Category deleted.");
+      setStatus(response.status);
+    })["catch"](function (error) {
+      setMessage(error.response.data.detail);
+      setStatus(error.response.status);
+    });
+  }
+
+  function addCategory() {
+    element.name = name;
+    _services_CatergoriesService__WEBPACK_IMPORTED_MODULE_1__.CategoryService.postCategory(element).then(function (response) {
+      setMessage("Category added.");
+      setStatus(response.status);
+    })["catch"](function (error) {
+      setMessage(error.response.data.detail);
+      setStatus(error.response.status);
+    });
   }
 };
 
@@ -2530,7 +2623,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var ContentHeader = function ContentHeader(_ref) {
   var elementId = _ref.elementId,
-      elementName = _ref.elementName;
+      elementName = _ref.elementName,
+      activeTab = _ref.activeTab;
+  if (elementId === 0) return createHeader();
   return standartHeader(elementName, elementId);
 
   function createHeader() {
@@ -2538,7 +2633,7 @@ var ContentHeader = function ContentHeader(_ref) {
       className: "content__header"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
       className: "content__header-text"
-    }, "Create new banner"));
+    }, "Create new ", activeTab));
   }
 
   function standartHeader(elementName, elementId) {
@@ -2661,7 +2756,6 @@ function Main() {
     _services_CatergoriesService__WEBPACK_IMPORTED_MODULE_5__.CategoryService.getCategories().then(function (data) {
       setCategories(data);
     });
-    console.log(banners);
     return function () {};
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -2721,15 +2815,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
-//TODO: add button handler.
 var Footer = function Footer(_ref) {
-  var activeTab = _ref.activeTab;
+  var activeTab = _ref.activeTab,
+      handler = _ref.handler;
+  var element = {
+    id: 0,
+    name: "",
+    text: "",
+    price: 0,
+    deleted: false,
+    categories: []
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("footer", {
     className: "sidebar__footer"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     className: "sidebar__submit-button",
-    onClick: null
+    onClick: function onClick() {
+      return handler(element);
+    }
   }, "Create new ", activeTab));
+
+  function createBanner() {}
+
+  function createCategory() {}
 };
 
 /***/ }),
@@ -2797,7 +2905,8 @@ var SideBar = function SideBar(_ref) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("header", {
     className: "sidebar__header"
   }, placeholder, ":"), view, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Footer__WEBPACK_IMPORTED_MODULE_3__.Footer, {
-    activeTab: activeTab
+    activeTab: activeTab,
+    handler: handeClickedItem
   }));
 
   function renderList(listToRender) {
@@ -2818,10 +2927,7 @@ var SideBar = function SideBar(_ref) {
         }
       }, element.name);
     })));
-  } //TODO: write handler.
-
-
-  function handleButonClick() {}
+  }
 };
 
 /***/ }),
@@ -2865,6 +2971,56 @@ var SidebarSearch = function SidebarSearch(_ref) {
 
 /***/ }),
 
+/***/ "./frontend/src/components/layouts/Validation/Error/Error.tsx":
+/*!********************************************************************!*\
+  !*** ./frontend/src/components/layouts/Validation/Error/Error.tsx ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Error": () => (/* binding */ Error)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var Error = function Error(_ref) {
+  var message = _ref.message;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "error"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: "error__text"
+  }, message));
+};
+
+/***/ }),
+
+/***/ "./frontend/src/components/layouts/Validation/Success/Success.tsx":
+/*!************************************************************************!*\
+  !*** ./frontend/src/components/layouts/Validation/Success/Success.tsx ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Success": () => (/* binding */ Success)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var Success = function Success(_ref) {
+  var message = _ref.message;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "info"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: "success__text"
+  }, message));
+};
+
+/***/ }),
+
 /***/ "./frontend/src/components/services/BannersService.ts":
 /*!************************************************************!*\
   !*** ./frontend/src/components/services/BannersService.ts ***!
@@ -2888,7 +3044,7 @@ var responseBody = function responseBody(response) {
 };
 
 var responseSingle = function responseSingle(response) {
-  return response.data;
+  return response;
 };
 
 var request = {
@@ -2903,6 +3059,9 @@ var request = {
   },
   deleteBanner: function deleteBanner(url) {
     return instance["delete"](url).then(responseSingle);
+  },
+  post: function post(url, body) {
+    return instance.post(url, body).then(responseSingle);
   }
 };
 var BannerService = {
@@ -2917,6 +3076,9 @@ var BannerService = {
   },
   deleteBanner: function deleteBanner(id) {
     return request.deleteBanner("banners/".concat(id));
+  },
+  postBanner: function postBanner(body) {
+    return request.post("banners/", body);
   }
 };
 
@@ -2944,14 +3106,36 @@ var responseBody = function responseBody(response) {
   return response.data._embedded.categoryList;
 };
 
+var responseSingle = function responseSingle(response) {
+  return response;
+};
+
 var request = {
   get: function get(url) {
     return instance.get(url).then(responseBody);
+  },
+  updateCategory: function updateCategory(url, body) {
+    return instance.put(url, body).then(responseSingle);
+  },
+  deleteCategory: function deleteCategory(url) {
+    return instance["delete"](url).then(responseSingle);
+  },
+  post: function post(url, body) {
+    return instance.post(url, body).then(responseSingle);
   }
 };
 var CategoryService = {
   getCategories: function getCategories() {
     return request.get("categories/all");
+  },
+  updateCategory: function updateCategory(id, body) {
+    return request.updateCategory("categories/".concat(id), body);
+  },
+  deleteCategory: function deleteCategory(id) {
+    return request.deleteCategory("categories/".concat(id));
+  },
+  postCategory: function postCategory(body) {
+    return request.post("categories/add", body);
   }
 };
 

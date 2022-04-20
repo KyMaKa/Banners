@@ -21,7 +21,7 @@ public class Category extends RepresentationModel<Category> {
   private Long id;
 
   @NonNull
-  @Column(unique = true)
+  @Column(nullable = false)
   private String name;
 
   @Column(name = "deleted", nullable = false)

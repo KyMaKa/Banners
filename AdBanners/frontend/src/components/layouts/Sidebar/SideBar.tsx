@@ -44,7 +44,7 @@ export const SideBar: FC<Props> = ({
 
       {view}
 
-      <Footer activeTab={activeTab} />
+      <Footer activeTab={activeTab} handler={handeClickedItem} />
     </>
   );
 
@@ -78,6 +78,4 @@ export const SideBar: FC<Props> = ({
       </section>
     );
   }
-  //TODO: write handler.
-  function handleButonClick() {}
 };

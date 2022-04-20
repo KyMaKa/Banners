@@ -70,7 +70,7 @@ class BannersControllerTest {
 
   @Test
   public void testGetSingleBanner() throws Exception {
-    when(bannerService.getBanner(any())).thenReturn(banner);
+    when(bannerService.getBanner((Long) any())).thenReturn(banner);
 
     mockMvc.perform(get("/banners/{id}", 1L)
             .contentType(MediaType.APPLICATION_JSON))

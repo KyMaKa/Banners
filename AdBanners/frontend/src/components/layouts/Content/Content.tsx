@@ -20,7 +20,11 @@ export const Content: FC<Props> = ({ element, type }) => {
   function bannerContent() {
     return (
       <section className="content">
-        <ContentHeader elementId={element.id} elementName={element.name} />
+        <ContentHeader
+          elementId={element.id}
+          elementName={element.name}
+          activeTab={type}
+        />
 
         <ContentBannerForm element={element} />
       </section>
@@ -30,7 +34,11 @@ export const Content: FC<Props> = ({ element, type }) => {
   function categoryContent() {
     return (
       <section className="content">
-        <ContentHeader elementId={element.id} elementName={element.name} />
+        <ContentHeader
+          elementId={element.id}
+          elementName={element.name}
+          activeTab={type}
+        />
         <ContentCategoryForm element={element} />
       </section>
     );

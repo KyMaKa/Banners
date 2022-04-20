@@ -6,8 +6,10 @@ import testtask.banners.data.models.Banner;
 
 public interface BannerRepository extends CrudRepository<Banner, Long> {
 
-  public Banner getBannerByIdAndDeletedFalse(Long id);
+  Banner getBannerByIdAndDeletedFalse(Long id);
 
-  public List<Banner> getBannersByDeletedFalse();
+  List<Banner> getBannersByDeletedFalse();
+
+  Banner getBannerByNameAndDeletedFalse(String name);
 
 }

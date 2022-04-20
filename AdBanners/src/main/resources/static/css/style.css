@@ -232,3 +232,15 @@ select {
   color: #fff;
   padding: 7px;
 }
+
+.info {
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 60px;
+  left: 5%;
+  width: 90%;
+  background-color: #82d5fa;
+  color: #000;
+  padding: 7px;
+}
+

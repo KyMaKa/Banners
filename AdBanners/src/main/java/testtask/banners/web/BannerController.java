@@ -1,10 +1,15 @@
 package testtask.banners.web;
 
 import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.mediatype.problem.Problem;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,20 +58,56 @@ public class BannerController {
 
   @PostMapping()
   public ResponseEntity<?> addBanner(@RequestBody Banner banner) {
-    EntityModel<Banner> entityModel = assembler.toModel(bannerService.createBanner(banner));
+    if (Objects.equals(banner.getName(), ""))
+      return ResponseEntity
+          .status(HttpStatus.BAD_REQUEST)
+          .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
+          .body(Problem.create()
+              .withTitle("Bad request")
+              .withDetail("Banner name can't be empty."));
+
+    if (bannerService.getBanner(banner.getName()) == null) {
+      EntityModel<Banner> entityModel = assembler.toModel(bannerService.createBanner(banner));
+
+      return ResponseEntity
+          .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+          .body(entityModel);
+    }
 
     return ResponseEntity
-        .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-        .body(entityModel);
+        .status(HttpStatus.CONFLICT)
+        .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
+        .body(Problem.create()
+            .withTitle("Conflict")
+            .withDetail("Banner with name " + banner.getName() + " already exist."));
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<?> updateBanner(@RequestBody Banner newBanner, @PathVariable("id") Long id) {
-    Banner updatedBanner = bannerService.updateBanner(newBanner, id);
-    EntityModel<Banner> entityModel = assembler.toModel(updatedBanner);
+    if (Objects.equals(newBanner.getName(), ""))
+      return ResponseEntity
+          .status(HttpStatus.BAD_REQUEST)
+          .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
+          .body(Problem.create()
+              .withTitle("Bad request")
+              .withDetail("Banner name can't be empty."));
+
+    if (Objects.equals(bannerService.getBanner(newBanner.getName()).getId(), id)
+        || bannerService.getBanner(newBanner.getName()) == null) {
+      Banner updatedBanner = bannerService.updateBanner(newBanner, id);
+      EntityModel<Banner> entityModel = assembler.toModel(updatedBanner);
+      return ResponseEntity
+          .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+          .body(entityModel);
+    }
+
+
     return ResponseEntity
-        .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-        .body(entityModel);
+        .status(HttpStatus.CONFLICT)
+        .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
+        .body(Problem.create()
+            .withTitle("Conflict")
+            .withDetail("Banner with name " + newBanner.getName() + " already exist."));
   }
 
   @PutMapping(path = "/add/{id}")

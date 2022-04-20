@@ -1,9 +1,11 @@
 import * as React from "react";
-export function Error() {
+
+
+export const Error = ({message}) => {
   return (
     <div className="error">
       <span className="error__text">
-        Banner with name "some banner" is already exist
+        {message}
       </span>
     </div>
   );

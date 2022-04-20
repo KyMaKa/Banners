@@ -20,7 +20,7 @@ public class Banner {
   private Long id;
 
   @NonNull
-  @Column(unique = true)
+  @Column(nullable = false)
   private String name;
 
   private String text;

@@ -1,6 +1,9 @@
+import { AxiosResponse, AxiosError } from "axios";
 import * as React from "react";
 import { FC, useState } from "react";
-import { BannerService } from "../../services/BannersService";
+import { CategoryService } from "../../services/CatergoriesService";
+import { Error } from "../Validation/Error/Error";
+import { Success } from "../Validation/Success/Success";
 import { ContentFooter } from "./ContentFooter";
 
 interface Props {
@@ -9,11 +12,18 @@ interface Props {
 
 export const ContentCategoryForm: FC<Props> = ({ element }) => {
   const [name, setName] = useState<string>(element.name);
+  const [status, setStatus] = useState<number>(null);
+  const [message, setMessage] = useState<string>("");
 
   React.useEffect(() => {
     setName(element.name);
-    console.log(element);
+    setStatus(null);
+    setMessage("");
   }, [element]);
+
+  React.useEffect(() => {
+    setStatus(null);
+  }, [name]);
 
   return (
     <>
@@ -43,8 +53,12 @@ export const ContentCategoryForm: FC<Props> = ({ element }) => {
           </div>
         </div>
       </div>
-      <ContentFooter updateItem={updateCategory} deleteItem={deleteCategory} />
-      {/* <Error /> */}
+      <ContentFooter
+        updateItem={element.id === 0 ? addCategory : updateCategory}
+        deleteItem={deleteCategory}
+      />
+      {status >= 400 ? <Error message={message} /> : null}
+      {status < 300 && status != null ? <Success message={message} /> : null}
     </>
   );
 
@@ -52,17 +66,44 @@ export const ContentCategoryForm: FC<Props> = ({ element }) => {
     const value = event.target.value;
     setName(value);
     console.log(value);
-    //element.name = value;
   }
 
   function updateCategory() {
     element.name = name;
-    BannerService.updateBanner(element.id, element).then((data) => {
-      console.log(data);
-    });
+    CategoryService.updateCategory(element.id, element)
+      .then((response: AxiosResponse) => {
+        setMessage("Category updated.");
+        console.log(response.status);
+        setStatus(response.status);
+      })
+      .catch((error: AxiosError) => {
+        setMessage(error.response.data.detail);
+        setStatus(error.response.status);
+      });
   }
 
   function deleteCategory() {
-    BannerService.deleteBanner(element.id);
+    CategoryService.deleteCategory(element.id)
+      .then((response: AxiosResponse) => {
+        setMessage("Category deleted.");
+        setStatus(response.status);
+      })
+      .catch((error: AxiosError) => {
+        setMessage(error.response.data.detail);
+        setStatus(error.response.status);
+      });
+  }
+
+  function addCategory() {
+    element.name = name;
+    CategoryService.postCategory(element)
+      .then((response: AxiosResponse) => {
+        setMessage("Category added.");
+        setStatus(response.status);
+      })
+      .catch((error: AxiosError) => {
+        setMessage(error.response.data.detail);
+        setStatus(error.response.status);
+      });
   }
 };

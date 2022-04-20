@@ -1,9 +1,11 @@
 package testtask.banners.service;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import testtask.banners.data.models.Banner;
 import testtask.banners.data.models.Category;
 import testtask.banners.data.repository.CategoryRepository;
 import testtask.banners.exception.ResourceNotFoundException;
@@ -31,6 +33,10 @@ public class CategoryService {
     return optionalCategory.get();
   }
 
+  public Category getCategory(String name) {
+    return categoryRepository.getCategoriesByNameAndDeletedFalse(name);
+  }
+
   public List<Category> getAllCategory() {
     return categoryRepository.findCategoriesByDeletedFalse();
   }
@@ -38,7 +44,9 @@ public class CategoryService {
   public Category updateCategory(Category newCategory, Long id) {
     Category category = getCategory(id);
     category.setName(newCategory.getName());
-    category.setBanners(newCategory.getBanners());
+    for (Banner banner : newCategory.getBanners()) {
+      category.addBanner(banner);
+    }
     categoryRepository.save(category);
     return category;
   }

@@ -4,6 +4,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.mediatype.problem.Problem;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import testtask.banners.data.models.Banner;
 import testtask.banners.data.models.Category;
@@ -30,8 +35,11 @@ public class BannerService {
   }
 
   public Banner getBanner(Long id) {
-    return Optional.ofNullable(bannerRepository.getBannerByIdAndDeletedFalse(id))
-        .orElseThrow(() -> new ResourceNotFoundException("Banner", "id:", id));
+    return bannerRepository.getBannerByIdAndDeletedFalse(id);
+  }
+
+  public Banner getBanner(String name) {
+    return bannerRepository.getBannerByNameAndDeletedFalse(name);
   }
 
   public List<Banner> getAllBanner() {
@@ -44,7 +52,10 @@ public class BannerService {
     banner.setText(newBanner.getText());
     banner.setPrice(newBanner.getPrice());
     banner.setDeleted(false);
-    banner.setCategories(newBanner.getCategories());
+    for (Category category : newBanner.getCategories()) {
+      category.addBanner(banner);
+    }
+    //banner.setCategories(newBanner.getCategories());
     bannerRepository.save(banner);
     return banner;
   }

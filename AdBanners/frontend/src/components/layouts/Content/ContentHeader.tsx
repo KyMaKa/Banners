@@ -5,15 +5,21 @@ import { ActiveTab } from "../../../js/ActiveTab";
 interface Props {
   elementId: number;
   elementName: string;
+  activeTab: ActiveTab;
 }
 
-export const ContentHeader: FC<Props> = ({ elementId, elementName }) => {
+export const ContentHeader: FC<Props> = ({
+  elementId,
+  elementName,
+  activeTab,
+}) => {
+  if (elementId === 0) return createHeader();
   return standartHeader(elementName, elementId);
 
   function createHeader() {
     return (
       <header className="content__header">
-        <span className="content__header-text">Create new banner</span>
+        <span className="content__header-text">Create new {activeTab}</span>
       </header>
     );
   }

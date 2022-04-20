@@ -26,7 +26,6 @@ export default function Main() {
     CategoryService.getCategories().then((data) => {
       setCategories(data);
     });
-    console.log(banners);
     return () => {};
   }, []);
 
