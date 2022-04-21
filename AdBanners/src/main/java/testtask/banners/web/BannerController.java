@@ -92,8 +92,8 @@ public class BannerController {
               .withTitle("Bad request")
               .withDetail("Banner name can't be empty."));
 
-    if (Objects.equals(bannerService.getBanner(newBanner.getName()).getId(), id)
-        || bannerService.getBanner(newBanner.getName()) == null) {
+    if (bannerService.getBanner(newBanner.getName()) == null
+        || Objects.equals(bannerService.getBanner(newBanner.getName()).getId(), id)) {
       Banner updatedBanner = bannerService.updateBanner(newBanner, id);
       EntityModel<Banner> entityModel = assembler.toModel(updatedBanner);
       return ResponseEntity

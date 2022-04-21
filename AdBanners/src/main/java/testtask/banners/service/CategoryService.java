@@ -38,7 +38,7 @@ public class CategoryService {
   }
 
   public Category getCategory(String name) {
-    return categoryRepository.getCategoriesByNameAndDeletedFalse(name);
+    return categoryRepository.getCategoryByNameAndDeletedFalse(name);
   }
 
   public List<Category> getAllCategory() {

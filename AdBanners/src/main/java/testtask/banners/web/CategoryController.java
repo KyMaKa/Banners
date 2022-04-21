@@ -95,8 +95,8 @@ public class CategoryController {
               .withTitle("Bad request")
               .withDetail("Category name can't be empty."));
 
-    if (Objects.equals(categoryService.getCategory(newCategory.getName()).getId(), id)
-        || categoryService.getCategory(newCategory.getName()) == null) {
+    if (categoryService.getCategory(newCategory.getName()) == null || Objects.equals(
+        categoryService.getCategory(newCategory.getName()).getId(), id)) {
       Category updatedCategory = categoryService.updateCategory(newCategory, id);
       EntityModel<Category> entityModel = assembler.toModel(updatedCategory);
       return ResponseEntity
