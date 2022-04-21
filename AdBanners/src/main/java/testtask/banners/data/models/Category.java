@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,7 +30,10 @@ public class Category extends RepresentationModel<Category> {
 
   // It is optimal to use Set, because this reduces SQL operators while deleting.
   @JsonBackReference
-  @ManyToMany(fetch = FetchType.LAZY)
+  @ManyToMany(fetch = FetchType.LAZY/*,cascade = {
+      CascadeType.MERGE,
+      CascadeType.PERSIST
+  }*/, mappedBy = "categories")
   private Set<Banner> banners = new HashSet<>();
 
   public Set<Banner> getBanners() {
@@ -82,16 +86,6 @@ public class Category extends RepresentationModel<Category> {
   @Override
   public int hashCode() {
     return Objects.hash(super.hashCode(), getId(), getName());
-  }
-
-  public void addBanner(Banner banner) {
-    this.banners.add(banner);
-    banner.getCategories().add(this);
-  }
-
-  public void removeBanner(Banner banner) {
-    this.banners.remove(banner);
-    banner.getCategories().remove(this);
   }
 
 }

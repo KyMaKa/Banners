@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import testtask.banners.data.models.Banner;
 import testtask.banners.data.models.Category;
+import testtask.banners.data.repository.BannerRepository;
 import testtask.banners.data.repository.CategoryRepository;
 import testtask.banners.exception.ResourceNotFoundException;
 
@@ -15,9 +16,12 @@ public class CategoryService {
 
   private final CategoryRepository categoryRepository;
 
+  private final BannerRepository bannerRepository;
+
   @Autowired
-  public CategoryService(CategoryRepository categoryRepository) {
+  public CategoryService(CategoryRepository categoryRepository, BannerRepository bannerRepository) {
     this.categoryRepository = categoryRepository;
+    this.bannerRepository = bannerRepository;
   }
 
   public Category createCategory(Category category) {
@@ -45,7 +49,8 @@ public class CategoryService {
     Category category = getCategory(id);
     category.setName(newCategory.getName());
     for (Banner banner : newCategory.getBanners()) {
-      category.addBanner(banner);
+      banner.addCategory(category);
+      bannerRepository.save(banner);
     }
     categoryRepository.save(category);
     return category;

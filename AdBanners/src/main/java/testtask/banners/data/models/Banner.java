@@ -3,6 +3,7 @@ package testtask.banners.data.models;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,6 +30,14 @@ public class Banner {
 
   @Column(name = "deleted")
   private Boolean deleted;
+  // It is optimal to use Set, because this reduces SQL operators while deleting.
+  // @JsonManagedReference
+  @ManyToMany(fetch = FetchType.LAZY/*,
+      cascade = {
+          CascadeType.MERGE,
+          CascadeType.PERSIST
+      }*/)
+  private Set<Category> categories = new HashSet<>();
 
   @Override
   public boolean equals(Object o) {
@@ -45,15 +54,6 @@ public class Banner {
   @Override
   public int hashCode() {
     return Objects.hash(getId(), getName());
-  }
-
-  // It is optimal to use Set, because this reduces SQL operators while deleting.
-  // @JsonManagedReference
-  @ManyToMany(mappedBy = "banners", fetch = FetchType.LAZY)
-  private Set<Category> categories = new HashSet<>();
-
-  public void setCategories(@NonNull Set<Category> categories) {
-    this.categories = categories;
   }
 
   public String getName() {
@@ -84,6 +84,10 @@ public class Banner {
     return categories;
   }
 
+  public void setCategories(@NonNull Set<Category> categories) {
+    this.categories = categories;
+  }
+
   @Override
   public String toString() {
     return "Banner{" +
@@ -109,5 +113,15 @@ public class Banner {
 
   public void setDeleted(Boolean deleted) {
     this.deleted = deleted;
+  }
+
+  public void addCategory(Category category) {
+    this.categories.add(category);
+    category.getBanners().add(this);
+  }
+
+  public void removeCategory(Category category) {
+    this.categories.remove(category);
+    category.getBanners().remove(this);
   }
 }
