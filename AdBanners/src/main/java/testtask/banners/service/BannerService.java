@@ -52,8 +52,17 @@ public class BannerService {
     banner.setText(newBanner.getText());
     banner.setPrice(newBanner.getPrice());
     banner.setDeleted(false);
+    Set<Category> categories = banner.getCategories();
+//    for (Category category : categories) {
+//      if (!newBanner.getCategories().contains(category)) {
+//        category.removeBanner(banner);
+//        categoryRepository.save(category);
+//      }
+//    }
     for (Category category : newBanner.getCategories()) {
-      category.addBanner(banner);
+      /*category.addBanner(banner);
+      categoryRepository.save(category)*/;
+      addCategory(category, id);
     }
     //banner.setCategories(newBanner.getCategories());
     bannerRepository.save(banner);

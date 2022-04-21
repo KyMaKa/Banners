@@ -1,7 +1,8 @@
 import { AxiosError, AxiosResponse } from "axios";
 import * as React from "react";
 import { FC, useState } from "react";
-import { CategoryType } from "../../models/Categories";
+import Select, { MultiValue, OnChangeValue } from "react-select";
+import { CategoryType } from "../../models/categories";
 import { BannerService } from "../../services/BannersService";
 import { Error } from "../Validation/Error/Error";
 import { Success } from "../Validation/Success/Success";
@@ -9,22 +10,23 @@ import { ContentFooter } from "./ContentFooter";
 
 interface Props {
   element: any;
+  categories: CategoryType[];
 }
 
-export const ContentBannerForm: FC<Props> = ({ element }) => {
+export const ContentBannerForm: FC<Props> = ({ element, categories }) => {
   const [status, setStatus] = useState<number>(null);
   const [message, setMessage] = useState<string>("");
   const [name, setName] = useState<string>(element.name);
   const [price, setPrice] = useState<number>(element.price);
   const [text, setText] = useState<string>(element.text);
-  const [categories, setCategories] = useState<CategoryType[]>(
+  const [bannerCategories, setbannerCategories] = useState<CategoryType[]>(
     element.categories
   );
 
   React.useEffect(() => {
     setName(element.name);
     setPrice(element.price);
-    setCategories(element.categories);
+    setbannerCategories(element.categories);
     setText(element.text);
     setStatus(null);
     setMessage("");
@@ -63,15 +65,23 @@ export const ContentBannerForm: FC<Props> = ({ element }) => {
           <div className="content__form-item">
             <div className="content__form-item-title">Category</div>
             <div className="content__form-item-content">
-              <select className="content__select">
-                {categories.map((category) => {
-                  return (
-                    <option value="cat" key={category.id}>
-                      {category.name}
-                    </option>
-                  );
+              <Select
+                className="content__select"
+                classNamePrefix="select"
+                isMulti
+                value={categories.map((category) => {
+                  if (
+                    bannerCategories.some((e) => {
+                      return e.id === category.id;
+                    })
+                  )
+                    return { value: category, label: category.name };
                 })}
-              </select>
+                options={categories.map((category) => {
+                  return { value: category, label: category.name };
+                })}
+                onChange={handleChangeCategory}
+              />
             </div>
           </div>
           <div className="content__form-item">
@@ -104,17 +114,27 @@ export const ContentBannerForm: FC<Props> = ({ element }) => {
     setPrice(value);
   }
 
+  function handleChangeCategory(
+    newValue: MultiValue<{ label?: string; value?: CategoryType }>
+  ) {
+    let newCategories: CategoryType[] = [];
+    newValue.map((item) => {
+      newCategories.push(item.value);
+    });
+    setbannerCategories(newCategories);
+  }
+
   function handleChangeText(event) {
     const value = event.target.value;
-    if (value as number)
-    setText(value);
+    if (value as number) setText(value);
   }
 
   function updateBanner() {
     element.name = name;
     element.price = price;
-    element.categories = categories;
+    element.categories = bannerCategories;
     element.text = text;
+    console.log(element);
     BannerService.updateBanner(element.id, element)
       .then((response: AxiosResponse) => {
         setMessage("Banner updated.");
@@ -142,7 +162,7 @@ export const ContentBannerForm: FC<Props> = ({ element }) => {
   function addBanner() {
     element.name = name;
     element.price = price;
-    element.categories = categories;
+    element.categories = bannerCategories;
     element.text = text;
     BannerService.postBanner(element)
       .then((response: AxiosResponse) => {

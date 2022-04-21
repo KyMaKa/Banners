@@ -5,13 +5,15 @@ import { ContentEmpty } from "./ContentEmpty";
 import { ContentBannerForm } from "./ContentBannerForm";
 import { ContentHeader } from "./ContentHeader";
 import { ContentCategoryForm } from "./ContentCategoryForm";
+import { CategoryType } from "../../models/Categories";
 
 interface Props {
   element: any;
   type: ActiveTab;
+  categories: CategoryType[];
 }
 
-export const Content: FC<Props> = ({ element, type }) => {
+export const Content: FC<Props> = ({ element, type, categories }) => {
   if (element === null) return <ContentEmpty />;
 
   if (type === ActiveTab.Banners) return bannerContent();
@@ -26,7 +28,7 @@ export const Content: FC<Props> = ({ element, type }) => {
           activeTab={type}
         />
 
-        <ContentBannerForm element={element} />
+        <ContentBannerForm element={element} categories={categories} />
       </section>
     );
   }

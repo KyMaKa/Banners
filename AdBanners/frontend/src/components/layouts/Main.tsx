@@ -49,7 +49,7 @@ export default function Main() {
             handeClickedItem={handleSelectedContent}
           />
         </aside>
-        <Content element={clickedItem} type={type} />
+        <Content element={clickedItem} type={type} categories={categories} />
       </main>
     </>
   );
