@@ -4176,7 +4176,7 @@ var ContentBannerForm = function ContentBannerForm(_ref) {
     deleteItem: deleteBanner
   }), status >= 400 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Validation_Error_Error__WEBPACK_IMPORTED_MODULE_2__.Error, {
     message: message
-  }) : null, status < 300 && status != null ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Validation_Success_Success__WEBPACK_IMPORTED_MODULE_3__.Success, {
+  }) : null, status != null && status < 300 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Validation_Success_Success__WEBPACK_IMPORTED_MODULE_3__.Success, {
     message: message
   }) : null);
 
@@ -4200,7 +4200,7 @@ var ContentBannerForm = function ContentBannerForm(_ref) {
 
   function handleChangeText(event) {
     var value = event.target.value;
-    if (value) setText(value);
+    setText(value);
   }
 
   function updateBanner() {
@@ -4338,7 +4338,7 @@ var ContentCategoryForm = function ContentCategoryForm(_ref) {
     deleteItem: deleteCategory
   }), status >= 400 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Validation_Error_Error__WEBPACK_IMPORTED_MODULE_2__.Error, {
     message: message
-  }) : null, status < 300 && status != null ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Validation_Success_Success__WEBPACK_IMPORTED_MODULE_3__.Success, {
+  }) : null, status != null && status < 300 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Validation_Success_Success__WEBPACK_IMPORTED_MODULE_3__.Success, {
     message: message
   }) : null);
 
@@ -4578,7 +4578,7 @@ function Main() {
   var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState10 = _slicedToArray(_useState9, 2),
       clickedItem = _useState10[0],
-      setClicledItem = _useState10[1];
+      setClickedItem = _useState10[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     _services_BannersService__WEBPACK_IMPORTED_MODULE_4__.BannerService.getBanners().then(function (data) {
@@ -4591,7 +4591,7 @@ function Main() {
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     return function () {
-      return setClicledItem(null);
+      return setClickedItem(null);
     };
   }, [activeTab]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Header__WEBPACK_IMPORTED_MODULE_2__.Header, {
@@ -4625,7 +4625,7 @@ function Main() {
 
   function handleSelectedContent(e) {
     console.log("clicked sidebar item");
-    setClicledItem(e); //For some reason i have to do this. Just using activeTab isn't working for Content.
+    setClickedItem(e); //For some reason i have to do this. Just using activeTab isn't working for Content.
 
     activeTab === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_3__.ActiveTab.Banners ? setType(_js_ActiveTab__WEBPACK_IMPORTED_MODULE_3__.ActiveTab.Banners) : setType(_js_ActiveTab__WEBPACK_IMPORTED_MODULE_3__.ActiveTab.Categories);
   }
@@ -4666,10 +4666,6 @@ var Footer = function Footer(_ref) {
       return handler(element);
     }
   }, "Create new ", activeTab));
-
-  function createBanner() {}
-
-  function createCategory() {}
 };
 
 /***/ }),
@@ -4729,7 +4725,7 @@ var SideBar = function SideBar(_ref) {
   if (activeTab === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Banners) {
     view = renderList(banners);
     placeholder = "Banners";
-  } else if (activeTab === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Categories) {
+  } else {
     view = renderList(categories);
     placeholder = "Categories";
   }
@@ -44788,7 +44784,7 @@ var App = /*#__PURE__*/function (_React$Component) {
   _createClass(App, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_layouts_Main__WEBPACK_IMPORTED_MODULE_2__["default"], null));
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_layouts_Main__WEBPACK_IMPORTED_MODULE_2__["default"], null);
     }
   }]);
 

@@ -101,7 +101,7 @@ export const ContentBannerForm: FC<Props> = ({ element, categories }) => {
         deleteItem={deleteBanner}
       />
       {status >= 400 ? <Error message={message} /> : null}
-      {status < 300 && status != null ? <Success message={message} /> : null}
+      {status != null && status < 300 ? <Success message={message} /> : null}
     </>
   );
 
@@ -126,7 +126,7 @@ export const ContentBannerForm: FC<Props> = ({ element, categories }) => {
 
   function handleChangeText(event) {
     const value = event.target.value;
-    if (value as number) setText(value);
+    setText(value);
   }
 
   function updateBanner() {

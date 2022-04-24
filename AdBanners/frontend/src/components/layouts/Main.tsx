@@ -15,7 +15,7 @@ export default function Main() {
   const [activeTab, setActiveTab] = useState(ActiveTab.Banners);
   const [banners, setBanners] = useState<BannerType[]>([]);
   const [categories, setCategories] = useState<CategoryType[]>([]);
-  const [clickedItem, setClicledItem] = useState<CategoryType | BannerType>(
+  const [clickedItem, setClickedItem] = useState<CategoryType | BannerType>(
     null
   );
 
@@ -30,7 +30,7 @@ export default function Main() {
   }, []);
 
   useEffect(() => {
-    return () => setClicledItem(null);
+    return () => setClickedItem(null);
   }, [activeTab]);
 
   return (
@@ -66,7 +66,7 @@ export default function Main() {
 
   function handleSelectedContent(e: CategoryType | BannerType) {
     console.log("clicked sidebar item");
-    setClicledItem(e);
+    setClickedItem(e);
     //For some reason i have to do this. Just using activeTab isn't working for Content.
     activeTab === ActiveTab.Banners
       ? setType(ActiveTab.Banners)

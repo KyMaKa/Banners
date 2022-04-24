@@ -2,10 +2,11 @@ import * as React from "react";
 import { FC } from "react";
 import { ActiveTab } from "../../../js/ActiveTab";
 import { BannerType } from "../../models/Banners";
+import { CategoryType } from "../../models/categories";
 
 interface Props {
   activeTab: ActiveTab;
-  handler: any;
+  handler: (e: BannerType | CategoryType) => void;
 }
 
 export const Footer: FC<Props> = ({ activeTab, handler }) => {
@@ -27,8 +28,4 @@ export const Footer: FC<Props> = ({ activeTab, handler }) => {
       </button>
     </footer>
   );
-
-  function createBanner() {}
-
-  function createCategory() {}
 };

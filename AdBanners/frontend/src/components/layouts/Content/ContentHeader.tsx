@@ -24,7 +24,7 @@ export const ContentHeader: FC<Props> = ({
     );
   }
 
-  function standartHeader(elementName, elementId) {
+  function standartHeader(elementName: string, elementId: number) {
     return (
       <header className="content__header">
         <span className="content__header-text">

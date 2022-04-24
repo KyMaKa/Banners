@@ -2,8 +2,8 @@ import * as React from "react";
 import { BannerService } from "../../services/BannersService";
 
 interface Props {
-  updateItem;
-  deleteItem;
+  updateItem: () => void;
+  deleteItem: () => void;
 }
 
 export const ContentFooter: React.FC<Props> = ({ updateItem, deleteItem }) => {

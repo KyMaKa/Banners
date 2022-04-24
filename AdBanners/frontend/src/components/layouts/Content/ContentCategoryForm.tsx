@@ -58,7 +58,7 @@ export const ContentCategoryForm: FC<Props> = ({ element }) => {
         deleteItem={deleteCategory}
       />
       {status >= 400 ? <Error message={message} /> : null}
-      {status < 300 && status != null ? <Success message={message} /> : null}
+      {status != null && status < 300 ? <Success message={message} /> : null}
     </>
   );
 
