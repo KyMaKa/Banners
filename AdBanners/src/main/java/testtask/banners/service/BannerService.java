@@ -1,7 +1,5 @@
 package testtask.banners.service;
 
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,23 +45,27 @@ public class BannerService {
     banner.setText(newBanner.getText());
     banner.setPrice(newBanner.getPrice());
     banner.setDeleted(false);
-    Set<Category> oldCategories = banner.getCategories();
+    /*Set<Category> oldCategories = banner.getCategories();
     Set<Category> newCategories = newBanner.getCategories();
     Iterator<Category> categoryIterator = banner.getCategories().iterator();
-
-    /*for (Category category : oldCategories) {
+    Banner b = banner;
+    Category c = null;
+    for (Category category : oldCategories) {
       if (!newCategories.contains(category)) {
         banner.removeCategory(category);
-        categoryRepository.save(category);
+        //categoryRepository.save(category);
       }
     }
     for (Category category : newBanner.getCategories()) {
-      banner.addCategory(category);
-      categoryRepository.save(category);
+      banner.getCategories().add(category);
+      //categoryRepository.save(category);
     }*/
     //I HONESTLY DON'T KNOW WHY THIS IS WORKING. PROBABLY 'mappedBy' IS
     //DOING SOME BLACK MAGIC.
-    banner.setCategories(newCategories);
+    //I can't understand how to safely (without ConcurrentModificationException)
+    //remove categories from banner entity. Method below works fine, but im concern
+    //that this is a bad way of updating.
+    banner.setCategories(newBanner.getCategories());
     bannerRepository.save(banner);
     return banner;
   }

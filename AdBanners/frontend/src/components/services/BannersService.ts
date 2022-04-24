@@ -27,6 +27,6 @@ export const BannerService = {
     request.updateBanner(`banners/${id}`, body),
   deleteBanner: (id: number): Promise<AxiosResponse> =>
     request.deleteBanner(`banners/${id}`),
-  postBanner: (body: BannerType): Promise<AxiosResponse> =>
+  postBanner: (body: BannerType): Promise<AxiosResponse> =>            
     request.post("banners/", body),
 };

@@ -8,15 +8,21 @@ import { ContentCategoryForm } from "./ContentCategoryForm";
 import { CategoryType } from "../../models/Categories";
 
 interface Props {
+  // привести к типу.
   element: any;
   type: ActiveTab;
+  activeTab: ActiveTab;
   categories: CategoryType[];
 }
 
-export const Content: FC<Props> = ({ element, type, categories }) => {
+export const Content: FC<Props> = ({ element, type, categories, activeTab }) => {
+
+  console.log(activeTab);
+  console.log(type);
+
   if (element === null) return <ContentEmpty />;
 
-  if (type === ActiveTab.Banners) return bannerContent();
+  if (activeTab === ActiveTab.Banners) return bannerContent();
   return categoryContent();
 
   function bannerContent() {
@@ -25,7 +31,7 @@ export const Content: FC<Props> = ({ element, type, categories }) => {
         <ContentHeader
           elementId={element.id}
           elementName={element.name}
-          activeTab={type}
+          activeTab={activeTab}
         />
 
         <ContentBannerForm element={element} categories={categories} />
@@ -39,7 +45,7 @@ export const Content: FC<Props> = ({ element, type, categories }) => {
         <ContentHeader
           elementId={element.id}
           elementName={element.name}
-          activeTab={type}
+          activeTab={activeTab}
         />
         <ContentCategoryForm element={element} />
       </section>

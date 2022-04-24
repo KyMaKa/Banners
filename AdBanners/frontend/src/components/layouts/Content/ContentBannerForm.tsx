@@ -9,6 +9,7 @@ import { Success } from "../Validation/Success/Success";
 import { ContentFooter } from "./ContentFooter";
 
 interface Props {
+  // привести к типу.
   element: any;
   categories: CategoryType[];
 }
@@ -101,7 +102,7 @@ export const ContentBannerForm: FC<Props> = ({ element, categories }) => {
         deleteItem={deleteBanner}
       />
       {status >= 400 ? <Error message={message} /> : null}
-      {status < 300 && status != null ? <Success message={message} /> : null}
+      {status != null && status < 300 ? <Success message={message} /> : null}
     </>
   );
 
@@ -126,9 +127,10 @@ export const ContentBannerForm: FC<Props> = ({ element, categories }) => {
 
   function handleChangeText(event) {
     const value = event.target.value;
-    if (value as number) setText(value);
+    setText(value);
   }
 
+  // создать новый и его меняь. 
   function updateBanner() {
     element.name = name;
     element.price = price;

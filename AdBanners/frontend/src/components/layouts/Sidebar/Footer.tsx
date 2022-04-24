@@ -5,6 +5,7 @@ import { BannerType } from "../../models/Banners";
 
 interface Props {
   activeTab: ActiveTab;
+  // типизировать
   handler: any;
 }
 
@@ -27,8 +28,4 @@ export const Footer: FC<Props> = ({ activeTab, handler }) => {
       </button>
     </footer>
   );
-
-  function createBanner() {}
-
-  function createCategory() {}
 };

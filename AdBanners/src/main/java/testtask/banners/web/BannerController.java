@@ -1,7 +1,9 @@
 package testtask.banners.web;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -18,12 +20,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import testtask.banners.data.modelAssemblers.BannerModelAssembler;
 import testtask.banners.data.models.Banner;
 import testtask.banners.data.models.Category;
 import testtask.banners.service.BannerService;
+import testtask.banners.service.CategoryService;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
@@ -33,11 +38,14 @@ public class BannerController {
   private final BannerService bannerService;
   private final BannerModelAssembler assembler;
 
+  private final CategoryService categoryService;
+
   @Autowired
   public BannerController(BannerService bannerService,
-      BannerModelAssembler assembler) {
+      BannerModelAssembler assembler, CategoryService categoryService) {
     this.bannerService = bannerService;
     this.assembler = assembler;
+    this.categoryService = categoryService;
   }
 
   @GetMapping(path = "/{id}")
@@ -46,7 +54,6 @@ public class BannerController {
     Banner banner = bannerService.getBanner(id);
     return assembler.toModel(banner);
   }
-
   @GetMapping(path = "/all")
   public @ResponseBody
   CollectionModel<EntityModel<Banner>> getAllBanner() {
@@ -58,13 +65,14 @@ public class BannerController {
 
   @PostMapping()
   public ResponseEntity<?> addBanner(@RequestBody Banner banner) {
-    if (Objects.equals(banner.getName(), ""))
+    if (Objects.equals(banner.getName(), "")) {
       return ResponseEntity
           .status(HttpStatus.BAD_REQUEST)
           .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
           .body(Problem.create()
               .withTitle("Bad request")
               .withDetail("Banner name can't be empty."));
+    }
 
     if (bannerService.getBanner(banner.getName()) == null) {
       EntityModel<Banner> entityModel = assembler.toModel(bannerService.createBanner(banner));
@@ -83,14 +91,16 @@ public class BannerController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<?> updateBanner(@RequestBody Banner newBanner, @PathVariable("id") Long id) {
-    if (Objects.equals(newBanner.getName(), ""))
+  public ResponseEntity<?> updateBanner(@RequestBody Banner newBanner,
+      @PathVariable("id") Long id) {
+    if (Objects.equals(newBanner.getName(), "")) {
       return ResponseEntity
           .status(HttpStatus.BAD_REQUEST)
           .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
           .body(Problem.create()
               .withTitle("Bad request")
               .withDetail("Banner name can't be empty."));
+    }
 
     if (bannerService.getBanner(newBanner.getName()) == null
         || Objects.equals(bannerService.getBanner(newBanner.getName()).getId(), id)) {
@@ -101,7 +111,6 @@ public class BannerController {
           .body(entityModel);
     }
 
-
     return ResponseEntity
         .status(HttpStatus.CONFLICT)
         .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
@@ -111,7 +120,8 @@ public class BannerController {
   }
 
   @PutMapping(path = "/add/{id}")
-  public ResponseEntity<?> addCategoryToBanner(@RequestBody Category category, @PathVariable("id") Long id) {
+  public ResponseEntity<?> addCategoryToBanner(@RequestBody Category category,
+      @PathVariable("id") Long id) {
     Banner banner = bannerService.addCategory(category, id);
     EntityModel<Banner> entityModel = assembler.toModel(banner);
     return ResponseEntity
@@ -120,7 +130,8 @@ public class BannerController {
   }
 
   @PutMapping(path = "/remove/{id}")
-  public ResponseEntity<?> removeCategoryFromBanner(@RequestBody Category category, @PathVariable("id") Long id) {
+  public ResponseEntity<?> removeCategoryFromBanner(@RequestBody Category category,
+      @PathVariable("id") Long id) {
     Banner banner = bannerService.removeCategory(category, id);
     EntityModel<Banner> entityModel = assembler.toModel(banner);
     return ResponseEntity
