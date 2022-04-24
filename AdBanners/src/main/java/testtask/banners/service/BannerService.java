@@ -1,5 +1,6 @@
 package testtask.banners.service;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +50,10 @@ public class BannerService {
     Set<Category> newCategories = newBanner.getCategories();
     Iterator<Category> categoryIterator = banner.getCategories().iterator();
     Banner b = banner;
-    Category c = null;
-    for (Category category : oldCategories) {
+    while (categoryIterator.hasNext()) {
+      Category category = categoryIterator.next();
       if (!newCategories.contains(category)) {
-        banner.removeCategory(category);
+        categoryIterator.remove();
         //categoryRepository.save(category);
       }
     }

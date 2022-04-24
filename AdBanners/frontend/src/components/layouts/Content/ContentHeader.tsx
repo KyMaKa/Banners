@@ -1,6 +1,6 @@
 import * as React from "react";
 import { FC } from "react";
-import { ActiveTab } from "../../../js/ActiveTab";
+import { ActiveTab } from "../../../ActiveTab";
 
 interface Props {
   elementId: number;

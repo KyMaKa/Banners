@@ -1,7 +1,7 @@
 import * as React from "react";
 import { SideBar } from "./Sidebar/SideBar";
 import { Header } from "./Header";
-import { ActiveTab } from "../../js/ActiveTab";
+import { ActiveTab } from "../../ActiveTab";
 import { useEffect, useState } from "react";
 import { BannerService } from "../services/BannersService";
 import { CategoryService } from "../services/CatergoriesService";

@@ -9,7 +9,7 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 
 import org.springframework.stereotype.Component;
 import testtask.banners.data.models.Category;
-import testtask.banners.web.CategoryController;
+import testtask.banners.controllers.CategoryController;
 
 @Component
 public class CategoryModelAssembler implements

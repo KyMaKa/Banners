@@ -4,8 +4,8 @@ import { FC, useState } from "react";
 import Select, { MultiValue, OnChangeValue } from "react-select";
 import { CategoryType } from "../../models/categories";
 import { BannerService } from "../../services/BannersService";
-import { Error } from "../Validation/Error/Error";
-import { Success } from "../Validation/Success/Success";
+import { Error } from "../Validation/Error";
+import { Success } from "../Validation/Success";
 import { ContentFooter } from "./ContentFooter";
 
 interface Props {
@@ -130,7 +130,7 @@ export const ContentBannerForm: FC<Props> = ({ element, categories }) => {
     setText(value);
   }
 
-  // создать новый и его меняь. 
+  // создать новый и его меняь.
   function updateBanner() {
     element.name = name;
     element.price = price;

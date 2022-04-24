@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './frontend/src/js/App.tsx',
+  entry: './frontend/src/App.tsx',
   devtool: 'source-map',
   cache: true,
   mode: 'development',

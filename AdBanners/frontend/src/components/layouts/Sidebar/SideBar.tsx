@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ActiveTab } from "../../../js/ActiveTab";
+import { ActiveTab } from "../../../ActiveTab";
 import { FC, useState } from "react";
 import { BannerType } from "../../models/Banners";
 import { CategoryType } from "../../models/Categories";

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { FC } from "react";
-import { ActiveTab } from "../../../js/ActiveTab";
+import { ActiveTab } from "../../../ActiveTab";
 import { ContentEmpty } from "./ContentEmpty";
 import { ContentBannerForm } from "./ContentBannerForm";
 import { ContentHeader } from "./ContentHeader";
@@ -22,7 +22,7 @@ export const Content: FC<Props> = ({ element, type, categories, activeTab }) => 
 
   if (element === null) return <ContentEmpty />;
 
-  if (activeTab === ActiveTab.Banners) return bannerContent();
+  if (type === ActiveTab.Banners) return bannerContent();
   return categoryContent();
 
   function bannerContent() {
@@ -31,7 +31,7 @@ export const Content: FC<Props> = ({ element, type, categories, activeTab }) => 
         <ContentHeader
           elementId={element.id}
           elementName={element.name}
-          activeTab={activeTab}
+          activeTab={type}
         />
 
         <ContentBannerForm element={element} categories={categories} />
@@ -45,7 +45,7 @@ export const Content: FC<Props> = ({ element, type, categories, activeTab }) => 
         <ContentHeader
           elementId={element.id}
           elementName={element.name}
-          activeTab={activeTab}
+          activeTab={type}
         />
         <ContentCategoryForm element={element} />
       </section>

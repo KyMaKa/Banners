@@ -1,9 +1,6 @@
-package testtask.banners.web;
+package testtask.banners.controllers;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import testtask.banners.data.modelAssemblers.BannerModelAssembler;
@@ -65,7 +61,7 @@ public class BannerController {
 
   @PostMapping()
   public ResponseEntity<?> addBanner(@RequestBody Banner banner) {
-    if (Objects.equals(banner.getName(), "")) {
+    if (banner.getName().isEmpty()) {
       return ResponseEntity
           .status(HttpStatus.BAD_REQUEST)
           .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
@@ -93,7 +89,7 @@ public class BannerController {
   @PutMapping("/{id}")
   public ResponseEntity<?> updateBanner(@RequestBody Banner newBanner,
       @PathVariable("id") Long id) {
-    if (Objects.equals(newBanner.getName(), "")) {
+    if (newBanner.getName().isEmpty()) {
       return ResponseEntity
           .status(HttpStatus.BAD_REQUEST)
           .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
@@ -103,7 +99,7 @@ public class BannerController {
     }
 
     if (bannerService.getBanner(newBanner.getName()) == null
-        || Objects.equals(bannerService.getBanner(newBanner.getName()).getId(), id)) {
+        || bannerService.getBanner(newBanner.getName()).getId().equals(id)) {
       Banner updatedBanner = bannerService.updateBanner(newBanner, id);
       EntityModel<Banner> entityModel = assembler.toModel(updatedBanner);
       return ResponseEntity

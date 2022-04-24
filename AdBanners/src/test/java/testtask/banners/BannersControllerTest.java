@@ -30,7 +30,7 @@ import testtask.banners.data.modelAssemblers.BannerModelAssembler;
 import testtask.banners.data.models.Banner;
 import testtask.banners.data.models.Category;
 import testtask.banners.service.BannerService;
-import testtask.banners.web.BannerController;
+import testtask.banners.controllers.BannerController;
 
 @WebMvcTest(BannerController.class)
 class BannersControllerTest {

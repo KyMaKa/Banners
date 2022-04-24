@@ -1,6 +1,6 @@
 import * as React from "react";
 import { FC } from "react";
-import { ActiveTab } from "../../../js/ActiveTab";
+import { ActiveTab } from "../../../ActiveTab";
 import { BannerType } from "../../models/Banners";
 import { CategoryType } from "../../models/categories";
 

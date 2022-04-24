@@ -2,8 +2,8 @@ import { AxiosResponse, AxiosError } from "axios";
 import * as React from "react";
 import { FC, useState } from "react";
 import { CategoryService } from "../../services/CatergoriesService";
-import { Error } from "../Validation/Error/Error";
-import { Success } from "../Validation/Success/Success";
+import { Error } from "../Validation/Error";
+import { Success } from "../Validation/Success";
 import { ContentFooter } from "./ContentFooter";
 
 interface Props {
