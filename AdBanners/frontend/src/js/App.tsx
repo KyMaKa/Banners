@@ -4,11 +4,7 @@ import Main from "../components/layouts/Main";
 
 class App extends React.Component {
   render() {
-    return (
-      <>
-        <Main />
-      </>
-    );
+    return <Main />;
   }
 }
 

@@ -7,6 +7,7 @@ import { Success } from "../Validation/Success/Success";
 import { ContentFooter } from "./ContentFooter";
 
 interface Props {
+  // типизировать
   element: any;
 }
 
@@ -58,7 +59,7 @@ export const ContentCategoryForm: FC<Props> = ({ element }) => {
         deleteItem={deleteCategory}
       />
       {status >= 400 ? <Error message={message} /> : null}
-      {status < 300 && status != null ? <Success message={message} /> : null}
+      {status != null && status < 300 ? <Success message={message} /> : null}
     </>
   );
 
@@ -68,6 +69,7 @@ export const ContentCategoryForm: FC<Props> = ({ element }) => {
     console.log(value);
   }
 
+  // новый элемент
   function updateCategory() {
     element.name = name;
     CategoryService.updateCategory(element.id, element)

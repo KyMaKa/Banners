@@ -3995,9 +3995,12 @@ __webpack_require__.r(__webpack_exports__);
 var Content = function Content(_ref) {
   var element = _ref.element,
       type = _ref.type,
-      categories = _ref.categories;
+      categories = _ref.categories,
+      activeTab = _ref.activeTab;
+  console.log(activeTab);
+  console.log(type);
   if (element === null) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentEmpty__WEBPACK_IMPORTED_MODULE_2__.ContentEmpty, null);
-  if (type === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Banners) return bannerContent();
+  if (activeTab === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Banners) return bannerContent();
   return categoryContent();
 
   function bannerContent() {
@@ -4006,7 +4009,7 @@ var Content = function Content(_ref) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentHeader__WEBPACK_IMPORTED_MODULE_4__.ContentHeader, {
       elementId: element.id,
       elementName: element.name,
-      activeTab: type
+      activeTab: activeTab
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentBannerForm__WEBPACK_IMPORTED_MODULE_3__.ContentBannerForm, {
       element: element,
       categories: categories
@@ -4019,7 +4022,7 @@ var Content = function Content(_ref) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentHeader__WEBPACK_IMPORTED_MODULE_4__.ContentHeader, {
       elementId: element.id,
       elementName: element.name,
-      activeTab: type
+      activeTab: activeTab
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentCategoryForm__WEBPACK_IMPORTED_MODULE_5__.ContentCategoryForm, {
       element: element
     }));
@@ -4176,7 +4179,7 @@ var ContentBannerForm = function ContentBannerForm(_ref) {
     deleteItem: deleteBanner
   }), status >= 400 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Validation_Error_Error__WEBPACK_IMPORTED_MODULE_2__.Error, {
     message: message
-  }) : null, status < 300 && status != null ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Validation_Success_Success__WEBPACK_IMPORTED_MODULE_3__.Success, {
+  }) : null, status != null && status < 300 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Validation_Success_Success__WEBPACK_IMPORTED_MODULE_3__.Success, {
     message: message
   }) : null);
 
@@ -4200,8 +4203,9 @@ var ContentBannerForm = function ContentBannerForm(_ref) {
 
   function handleChangeText(event) {
     var value = event.target.value;
-    if (value) setText(value);
-  }
+    setText(value);
+  } // создать новый и его меняь. 
+
 
   function updateBanner() {
     element.name = name;
@@ -4338,7 +4342,7 @@ var ContentCategoryForm = function ContentCategoryForm(_ref) {
     deleteItem: deleteCategory
   }), status >= 400 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Validation_Error_Error__WEBPACK_IMPORTED_MODULE_2__.Error, {
     message: message
-  }) : null, status < 300 && status != null ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Validation_Success_Success__WEBPACK_IMPORTED_MODULE_3__.Success, {
+  }) : null, status != null && status < 300 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Validation_Success_Success__WEBPACK_IMPORTED_MODULE_3__.Success, {
     message: message
   }) : null);
 
@@ -4346,7 +4350,8 @@ var ContentCategoryForm = function ContentCategoryForm(_ref) {
     var value = event.target.value;
     setName(value);
     console.log(value);
-  }
+  } // новый элемент
+
 
   function updateCategory() {
     element.name = name;
@@ -4573,7 +4578,8 @@ function Main() {
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState8 = _slicedToArray(_useState7, 2),
       categories = _useState8[0],
-      setCategories = _useState8[1];
+      setCategories = _useState8[1]; // опечатка
+
 
   var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState10 = _slicedToArray(_useState9, 2),
@@ -4610,7 +4616,8 @@ function Main() {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Content_Content__WEBPACK_IMPORTED_MODULE_6__.Content, {
     element: clickedItem,
     type: type,
-    categories: categories
+    categories: categories,
+    activeTab: activeTab
   })));
 
   function handleClickBanners() {
@@ -4666,10 +4673,6 @@ var Footer = function Footer(_ref) {
       return handler(element);
     }
   }, "Create new ", activeTab));
-
-  function createBanner() {}
-
-  function createCategory() {}
 };
 
 /***/ }),
@@ -4729,7 +4732,7 @@ var SideBar = function SideBar(_ref) {
   if (activeTab === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Banners) {
     view = renderList(banners);
     placeholder = "Banners";
-  } else if (activeTab === _js_ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Categories) {
+  } else {
     view = renderList(categories);
     placeholder = "Categories";
   }
@@ -44788,7 +44791,7 @@ var App = /*#__PURE__*/function (_React$Component) {
   _createClass(App, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_layouts_Main__WEBPACK_IMPORTED_MODULE_2__["default"], null));
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_layouts_Main__WEBPACK_IMPORTED_MODULE_2__["default"], null);
     }
   }]);
 

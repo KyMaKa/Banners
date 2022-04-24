@@ -33,7 +33,7 @@ export const SideBar: FC<Props> = ({
   if (activeTab === ActiveTab.Banners) {
     view = renderList(banners);
     placeholder = "Banners";
-  } else if (activeTab === ActiveTab.Categories) {
+  } else {
     view = renderList(categories);
     placeholder = "Categories";
   }

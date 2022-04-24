@@ -15,6 +15,7 @@ export default function Main() {
   const [activeTab, setActiveTab] = useState(ActiveTab.Banners);
   const [banners, setBanners] = useState<BannerType[]>([]);
   const [categories, setCategories] = useState<CategoryType[]>([]);
+  // опечатка
   const [clickedItem, setClicledItem] = useState<CategoryType | BannerType>(
     null
   );
@@ -49,7 +50,7 @@ export default function Main() {
             handeClickedItem={handleSelectedContent}
           />
         </aside>
-        <Content element={clickedItem} type={type} categories={categories} />
+        <Content element={clickedItem} type={type} categories={categories} activeTab={activeTab} />
       </main>
     </>
   );
