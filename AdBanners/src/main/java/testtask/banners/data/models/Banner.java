@@ -3,7 +3,6 @@ package testtask.banners.data.models;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,19 +18,14 @@ public class Banner {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
-
   @NonNull
   @Column(nullable = false)
   private String name;
-
   private String text;
-
   private Integer price;
-
   @Column(name = "deleted")
   private Boolean deleted;
   // It is optimal to use Set, because this reduces SQL operators while deleting.
-  // @JsonManagedReference
   @ManyToMany(fetch = FetchType.LAZY/*,
       cascade = {
           CascadeType.MERGE,
@@ -117,11 +111,9 @@ public class Banner {
 
   public void addCategory(Category category) {
     this.categories.add(category);
-    category.getBanners().add(this);
   }
 
   public void removeCategory(Category category) {
     this.categories.remove(category);
-    category.getBanners().remove(this);
   }
 }

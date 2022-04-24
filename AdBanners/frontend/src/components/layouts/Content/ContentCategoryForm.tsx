@@ -7,6 +7,7 @@ import { Success } from "../Validation/Success/Success";
 import { ContentFooter } from "./ContentFooter";
 
 interface Props {
+  // типизировать
   element: any;
 }
 
@@ -68,6 +69,7 @@ export const ContentCategoryForm: FC<Props> = ({ element }) => {
     console.log(value);
   }
 
+  // новый элемент
   function updateCategory() {
     element.name = name;
     CategoryService.updateCategory(element.id, element)

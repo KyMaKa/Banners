@@ -9,6 +9,7 @@ import { Success } from "../Validation/Success/Success";
 import { ContentFooter } from "./ContentFooter";
 
 interface Props {
+  // привести к типу.
   element: any;
   categories: CategoryType[];
 }
@@ -129,6 +130,7 @@ export const ContentBannerForm: FC<Props> = ({ element, categories }) => {
     setText(value);
   }
 
+  // создать новый и его меняь. 
   function updateBanner() {
     element.name = name;
     element.price = price;

@@ -1,4 +1,4 @@
-package testtask.banners.web;
+/*package testtask.banners.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,4 +9,4 @@ public class WebMainController {
   public String index() {
     return "index";
   }
-}
+}*/
