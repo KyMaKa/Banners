@@ -1,15 +1,12 @@
 package testtask.banners.controllers;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.MediaTypes;
-import org.springframework.hateoas.mediatype.problem.Problem;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -19,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import testtask.banners.data.models.Banner;
 import testtask.banners.data.models.Category;
+import testtask.banners.data.models.Log;
 import testtask.banners.service.BannerService;
 import testtask.banners.service.CategoryService;
+import testtask.banners.service.LogService;
 
 
 @RestController
@@ -29,88 +28,91 @@ public class BidController {
 
   private final BannerService bannerService;
 
+  private final LogService logService;
   private final CategoryService categoryService;
 
   @Autowired
   public BidController(BannerService bannerService,
-      CategoryService categoryService) {
+      LogService logService, CategoryService categoryService) {
     this.bannerService = bannerService;
+    this.logService = logService;
     this.categoryService = categoryService;
   }
 
-  private Banner findBanner(List<Banner> banners, Cookie[] cookies) {
+  private void createLog(Log log, Banner banner, String ipAddress, String userAgent) {
+    if (banner == null) {
+      log.setBannerId(null);
+      log.setBannerPrice(null);
+    } else {
+      log.setBannerId(banner.getId());
+      log.setBannerPrice(banner.getPrice());
+    }
+    log.setDate(LocalDateTime.now());
+    log.setIpAddress(ipAddress);
+    log.setUserAgent(userAgent);
+    logService.createLog(log);
+  }
+
+  private Banner findBanner(List<Banner> banners, List<Log> logs) {
     Banner banner = banners.get(0);
-    if (cookies == null)
+    if (logs.isEmpty()) {
       return banner;
+    }
     for (Banner b : banners) {
       banner = b;
-      for (Cookie c : cookies) {
-        if (b.getId().toString().equals(c.getValue())) {
-          banner = null;
-          break;
+      for (Log l : logs) {
+        if (l.getBannerId() != null) {
+          if (l.getBannerId().equals(b.getId())) {
+            System.out.println(l.getBannerId());
+            banner = null;
+            break;
+          }
         }
       }
+      if (banner != null) {
+        return banner;
+      }
     }
-    return banner;
+    return null;
   }
 
   @GetMapping
   public ResponseEntity<?> getBannerText(@RequestParam("cat") List<String> categories,
-      HttpServletRequest request
-      , HttpServletResponse response
-      , Model model) {
+      HttpServletRequest request) {
 
+    Log log = new Log();
     Set<Category> set = new HashSet<>();
     for (String s : categories) {
       Category c = categoryService.getCategory(s);
+      log.getCategoriesId().add(c.getId());
       set.add(c);
     }
 
-    Cookie[] cookies = request.getCookies();
+    String userAgent = request.getHeader("User-Agent");
+    String ipAddress = request.getRemoteAddr();
 
     List<Banner> banners = bannerService.bannerRepository.getBannersByDeletedFalseAndCategoriesInOrderByPriceDesc(
         set);
+
+    LocalDateTime currentDate = LocalDateTime.now();
+    LocalDateTime pastDate = currentDate.minusHours(24);
+    List<Log> logs = logService.getLogsForDay(userAgent, ipAddress, pastDate, currentDate);
+
     if (banners.isEmpty()) {
-      //model.addAttribute("name", "No banners for given categories.");
-      /*return ResponseEntity
-          .status(HttpStatus.NO_CONTENT)
-          .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
-          .body(Problem.create()
-              .withTitle("No content.")
-              .withDetail("No banners for given categories."));*/
+      log.setNoContent("No banners for given categories.");
+      createLog(log, null, ipAddress, userAgent);
       return new ResponseEntity<>("No content.", HttpStatus.NO_CONTENT);
     }
-    //find not shown banner
-    Banner banner = findBanner(banners, cookies);
-//    String address = request.getRemoteAddr();
-//    //System.out.println(request.getRequestURI());
-//
-//    //System.out.println(address);
-//    if ("0:0:0:0:0:0:0:1".equals(address)) {
-//      InetAddress inetAddress = null;
-//      try {
-//        inetAddress = InetAddress.getLocalHost();
-//      } catch (UnknownHostException e) {
-//        throw new RuntimeException(e);
-//      }
-//      //System.out.println(inetAddress.getHostAddress());
-//    }
 
-    //String userAgent = request.getHeader("User-Agent");
-    //System.out.println(userAgent);
+    Banner banner = findBanner(banners, logs);
 
-    if (cookies != null)
-      for (Cookie c : cookies) {
-        response.addCookie(c);
-      }
     if (banner != null) {
-      Cookie cookie = new Cookie("BannerId" + banner.getId().toString(), banner.getId().toString());
-      cookie.setMaxAge(24 * 60 * 60);
-      cookie.setHttpOnly(true);
-      response.addCookie(cookie);
+      createLog(log, banner, ipAddress, userAgent);
       return new ResponseEntity<>(banner.getText(), HttpStatus.OK);
     }
-    //model.addAttribute("name", "No banners for given categories.");
+
+    log.setNoContent("All banners for given categories is shown.");
+    createLog(log, null, ipAddress, userAgent);
     return new ResponseEntity<>("No content.", HttpStatus.NO_CONTENT);
   }
 }
