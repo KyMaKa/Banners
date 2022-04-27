@@ -20,10 +20,19 @@ export const SideBar: FC<Props> = ({
   handeClickedItem,
 }) => {
   const [activeItem, setActiveItem] = useState<number>();
+  const [input, setInput] = useState<string>("");
+
+  const filterList = (list: BannerType[] & CategoryType[]) => {
+    return list.filter((el) => {
+      if (input === "") return el;
+      else return el.name.includes(input);
+    });
+  };
 
   React.useEffect(() => {
     return () => {
       setActiveItem(null);
+      setInput("");
     };
   }, [activeTab]);
 
@@ -48,34 +57,38 @@ export const SideBar: FC<Props> = ({
     </>
   );
 
-  function renderList<Type extends CategoryType, BannerType>(
-    listToRender: Type[]
-  ) {
+  function renderList(listToRender: BannerType[] & CategoryType[]) {
     return (
       <section className="sidebar__content">
-        <SidebarSearch activeTab={activeTab} />
+        <SidebarSearch activeTab={activeTab} searchHandler={searchHandler} />
         <div className="sidebar__menu">
-          {listToRender.map((element) => {
-            return (
-              <a
-                href="#"
-                key={element.id}
-                className={
-                  activeItem === element.id
-                    ? "sidebar__menu-item sidebar__menu-item_active"
-                    : "sidebar__menu-item"
-                }
-                onClick={() => {
-                  setActiveItem(element.id);
-                  handeClickedItem(element);
-                }}
-              >
-                {element.name}
-              </a>
-            );
-          })}
+          {filterList(listToRender).map(
+            (element: BannerType & CategoryType) => {
+              return (
+                <a
+                  href="#"
+                  key={element.id}
+                  className={
+                    activeItem === element.id
+                      ? "sidebar__menu-item sidebar__menu-item_active"
+                      : "sidebar__menu-item"
+                  }
+                  onClick={() => {
+                    setActiveItem(element.id);
+                    handeClickedItem(element);
+                  }}
+                >
+                  {element.name}
+                </a>
+              );
+            }
+          )}
         </div>
       </section>
     );
+  }
+
+  function searchHandler(event: React.BaseSyntheticEvent) {
+    setInput(event.target.value);
   }
 };

@@ -4740,9 +4740,21 @@ var SideBar = function SideBar(_ref) {
       activeItem = _useState2[0],
       setActiveItem = _useState2[1];
 
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+      _useState4 = _slicedToArray(_useState3, 2),
+      input = _useState4[0],
+      setInput = _useState4[1];
+
+  var filterList = function filterList(list) {
+    return list.filter(function (el) {
+      if (input === "") return el;else return el.name.includes(input);
+    });
+  };
+
   react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
     return function () {
       setActiveItem(null);
+      setInput("");
     };
   }, [activeTab]);
   var view;
@@ -4767,10 +4779,11 @@ var SideBar = function SideBar(_ref) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("section", {
       className: "sidebar__content"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_SidebarSearch__WEBPACK_IMPORTED_MODULE_2__.SidebarSearch, {
-      activeTab: activeTab
+      activeTab: activeTab,
+      searchHandler: searchHandler
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "sidebar__menu"
-    }, listToRender.map(function (element) {
+    }, filterList(listToRender).map(function (element) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
         href: "#",
         key: element.id,
@@ -4781,6 +4794,10 @@ var SideBar = function SideBar(_ref) {
         }
       }, element.name);
     })));
+  }
+
+  function searchHandler(event) {
+    setInput(event.target.value);
   }
 };
 
@@ -4803,7 +4820,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var SidebarSearch = function SidebarSearch(_ref) {
-  var activeTab = _ref.activeTab;
+  var activeTab = _ref.activeTab,
+      searchHandler = _ref.searchHandler;
   var placeholder;
 
   if (activeTab === _ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Banners) {
@@ -4817,7 +4835,8 @@ var SidebarSearch = function SidebarSearch(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
     className: "sidebar__search-input",
     type: "text",
-    placeholder: placeholder
+    placeholder: placeholder,
+    onChange: searchHandler
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
     className: "sidebar__search-icon"
   }));
