@@ -18,9 +18,8 @@ public class LogService {
     this.logRepository = logRepository;
   }
 
-  public Log createLog(Log log) {
+  public void createLog(Log log) {
     logRepository.save(log);
-    return log;
   }
 
   public Optional<Log> getLog(Log log) {

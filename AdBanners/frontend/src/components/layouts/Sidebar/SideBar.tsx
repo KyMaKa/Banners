@@ -10,18 +10,20 @@ interface Props {
   activeTab: ActiveTab;
   banners: BannerType[];
   categories: CategoryType[];
-  handeClickedItem: (e: CategoryType | BannerType) => void;
+  handleClickedItem: (e: CategoryType | BannerType) => void;
 }
 
 export const SideBar: FC<Props> = ({
   activeTab,
   banners,
   categories,
-  handeClickedItem,
+  handleClickedItem,
 }) => {
   const [activeItem, setActiveItem] = useState<number>();
   const [input, setInput] = useState<string>("");
 
+  //Used to filter displayed list of elements according to user input
+  //in search field. If no input provided - renders all list.
   const filterList = (list: BannerType[] & CategoryType[]) => {
     return list.filter((el) => {
       if (input === "") return el;
@@ -29,6 +31,7 @@ export const SideBar: FC<Props> = ({
     });
   };
 
+  //Reset input and highlighting for selected item on tab change.
   React.useEffect(() => {
     return () => {
       setActiveItem(null);
@@ -39,6 +42,7 @@ export const SideBar: FC<Props> = ({
   let view: ReturnType<typeof renderList>;
   let placeholder: string;
 
+  //Renders list of elements according to selected tab.
   if (activeTab === ActiveTab.Banners) {
     view = renderList(banners);
     placeholder = "Banners";
@@ -53,7 +57,7 @@ export const SideBar: FC<Props> = ({
 
       {view}
 
-      <Footer activeTab={activeTab} handler={handeClickedItem} />
+      <Footer activeTab={activeTab} handler={handleClickedItem} />
     </>
   );
 
@@ -75,7 +79,7 @@ export const SideBar: FC<Props> = ({
                   }
                   onClick={() => {
                     setActiveItem(element.id);
-                    handeClickedItem(element);
+                    handleClickedItem(element);
                   }}
                 >
                   {element.name}

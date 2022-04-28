@@ -4,10 +4,9 @@ import { Header } from "./Header";
 import { ActiveTab } from "../../ActiveTab";
 import { useEffect, useState } from "react";
 import { BannerService } from "../services/BannersService";
-import { CategoryService } from "../services/CatergoriesService";
+import { CategoryService } from "../services/CategoriesService";
 import { BannerType } from "../models/Banners";
 import { CategoryType } from "../models/Categories";
-import { ContentEmpty } from "./Content/ContentEmpty";
 import { Content } from "./Content/Content";
 
 export default function Main() {
@@ -19,6 +18,7 @@ export default function Main() {
     null
   );
 
+  //Get form backend list of banners and categories on first render.
   useEffect(() => {
     BannerService.getBanners().then((data) => {
       setBanners(data);
@@ -29,7 +29,15 @@ export default function Main() {
     return () => {};
   }, []);
 
+  //Update list of elements when tab is changed.
+  //Reset selected element.
   useEffect(() => {
+    BannerService.getBanners().then((data) => {
+      setBanners(data);
+    });
+    CategoryService.getCategories().then((data) => {
+      setCategories(data);
+    });
     return () => setClickedItem(null);
   }, [activeTab]);
 
@@ -46,10 +54,10 @@ export default function Main() {
             activeTab={activeTab}
             banners={banners}
             categories={categories}
-            handeClickedItem={handleSelectedContent}
+            handleClickedItem={handleSelectedContent}
           />
         </aside>
-        <Content element={clickedItem} type={type} categories={categories} activeTab={activeTab} />
+        <Content element={clickedItem} type={type} categories={categories} />
       </main>
     </>
   );

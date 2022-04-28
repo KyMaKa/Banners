@@ -5,11 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -81,12 +79,14 @@ public class BidController {
       HttpServletRequest request) {
 
     Log log = new Log();
+    String cats = "";
     Set<Category> set = new HashSet<>();
     for (String s : categories) {
       Category c = categoryService.getCategory(s);
-      log.getCategoriesId().add(c.getId());
+      cats = cats.concat(c.getId() + " ");
       set.add(c);
     }
+    log.setCategoriesId(cats);
 
     String userAgent = request.getHeader("User-Agent");
     String ipAddress = request.getRemoteAddr();

@@ -4015,11 +4015,11 @@ __webpack_require__.r(__webpack_exports__);
 var Content = function Content(_ref) {
   var element = _ref.element,
       type = _ref.type,
-      categories = _ref.categories,
-      activeTab = _ref.activeTab;
-  console.log(activeTab);
-  console.log(type);
-  if (element === null) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentEmpty__WEBPACK_IMPORTED_MODULE_2__.ContentEmpty, null);
+      categories = _ref.categories;
+  //If no element is selected - render empty view.
+  if (element === null) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContentEmpty__WEBPACK_IMPORTED_MODULE_2__.ContentEmpty, null); //If currently selected tab is Banners - display form for banners.
+  //Else - display form for categories.
+
   if (type === _ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Banners) return bannerContent();
   return categoryContent();
 
@@ -4120,7 +4120,8 @@ var ContentBannerForm = function ContentBannerForm(_ref) {
   var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(element.categories),
       _useState12 = _slicedToArray(_useState11, 2),
       bannerCategories = _useState12[0],
-      setbannerCategories = _useState12[1];
+      setbannerCategories = _useState12[1]; //Sets the element values on selecting element.
+
 
   react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
     setName(element.name);
@@ -4129,7 +4130,8 @@ var ContentBannerForm = function ContentBannerForm(_ref) {
     setText(element.text);
     setStatus(null);
     setMessage("");
-  }, [element]);
+  }, [element]); //Resets validation status.
+
   react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
     setStatus(null);
   }, [name]);
@@ -4224,16 +4226,18 @@ var ContentBannerForm = function ContentBannerForm(_ref) {
   function handleChangeText(event) {
     var value = event.target.value;
     setText(value);
-  } // создать новый и его меняь.
+  } //Set request on backend to update existing banner.
 
 
   function updateBanner() {
-    element.name = name;
-    element.price = price;
-    element.categories = bannerCategories;
-    element.text = text;
-    console.log(element);
-    _services_BannersService__WEBPACK_IMPORTED_MODULE_1__.BannerService.updateBanner(element.id, element).then(function (response) {
+    var banner;
+    banner.id = element.id;
+    banner.name = name;
+    banner.price = price;
+    banner.categories = bannerCategories;
+    banner.text = text;
+    banner.deleted = false;
+    _services_BannersService__WEBPACK_IMPORTED_MODULE_1__.BannerService.updateBanner(banner.id, banner).then(function (response) {
       setMessage("Banner updated.");
       console.log(response.status);
       setStatus(response.status);
@@ -4251,7 +4255,9 @@ var ContentBannerForm = function ContentBannerForm(_ref) {
       setMessage(error.response.data.detail);
       setStatus(error.response.status);
     });
-  }
+  } //In this case new empty entity is already created
+  //So we just set it's values.
+
 
   function addBanner() {
     element.name = name;
@@ -4283,7 +4289,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _services_CatergoriesService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/CatergoriesService */ "./frontend/src/components/services/CatergoriesService.ts");
+/* harmony import */ var _services_CategoriesService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/CategoriesService */ "./frontend/src/components/services/CategoriesService.ts");
 /* harmony import */ var _Validation_Error__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Validation/Error */ "./frontend/src/components/layouts/Validation/Error.tsx");
 /* harmony import */ var _Validation_Success__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Validation/Success */ "./frontend/src/components/layouts/Validation/Success.tsx");
 /* harmony import */ var _ContentFooter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ContentFooter */ "./frontend/src/components/layouts/Content/ContentFooter.tsx");
@@ -4321,13 +4327,15 @@ var ContentCategoryForm = function ContentCategoryForm(_ref) {
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState6 = _slicedToArray(_useState5, 2),
       message = _useState6[0],
-      setMessage = _useState6[1];
+      setMessage = _useState6[1]; //Sets the element values on selecting element.
+
 
   react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
     setName(element.name);
     setStatus(null);
     setMessage("");
-  }, [element]);
+  }, [element]); //Resets validation status.
+
   react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
     setStatus(null);
   }, [name]);
@@ -4370,12 +4378,15 @@ var ContentCategoryForm = function ContentCategoryForm(_ref) {
     var value = event.target.value;
     setName(value);
     console.log(value);
-  } // новый элемент
+  } //Updates existing category.
 
 
   function updateCategory() {
-    element.name = name;
-    _services_CatergoriesService__WEBPACK_IMPORTED_MODULE_1__.CategoryService.updateCategory(element.id, element).then(function (response) {
+    var category;
+    category.id = element.id;
+    category.name = name;
+    category.deleted = false;
+    _services_CategoriesService__WEBPACK_IMPORTED_MODULE_1__.CategoryService.updateCategory(category.id, category).then(function (response) {
       setMessage("Category updated.");
       console.log(response.status);
       setStatus(response.status);
@@ -4386,18 +4397,19 @@ var ContentCategoryForm = function ContentCategoryForm(_ref) {
   }
 
   function deleteCategory() {
-    _services_CatergoriesService__WEBPACK_IMPORTED_MODULE_1__.CategoryService.deleteCategory(element.id).then(function (response) {
+    _services_CategoriesService__WEBPACK_IMPORTED_MODULE_1__.CategoryService.deleteCategory(element.id).then(function (response) {
       setMessage("Category deleted.");
       setStatus(response.status);
     })["catch"](function (error) {
       setMessage(error.response.data.detail);
       setStatus(error.response.status);
     });
-  }
+  } //Sends request to add new category.
+
 
   function addCategory() {
     element.name = name;
-    _services_CatergoriesService__WEBPACK_IMPORTED_MODULE_1__.CategoryService.postCategory(element).then(function (response) {
+    _services_CategoriesService__WEBPACK_IMPORTED_MODULE_1__.CategoryService.postCategory(element).then(function (response) {
       setMessage("Category added.");
       setStatus(response.status);
     })["catch"](function (error) {
@@ -4482,7 +4494,7 @@ var ContentHeader = function ContentHeader(_ref) {
       elementName = _ref.elementName,
       activeTab = _ref.activeTab;
   if (elementId === 0) return createHeader();
-  return standartHeader(elementName, elementId);
+  return standardHeader(elementName, elementId);
 
   function createHeader() {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("header", {
@@ -4492,7 +4504,7 @@ var ContentHeader = function ContentHeader(_ref) {
     }, "Create new ", activeTab));
   }
 
-  function standartHeader(elementName, elementId) {
+  function standardHeader(elementName, elementId) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("header", {
       className: "content__header"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
@@ -4557,7 +4569,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Header__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Header */ "./frontend/src/components/layouts/Header.tsx");
 /* harmony import */ var _ActiveTab__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../ActiveTab */ "./frontend/src/ActiveTab.ts");
 /* harmony import */ var _services_BannersService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/BannersService */ "./frontend/src/components/services/BannersService.ts");
-/* harmony import */ var _services_CatergoriesService__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/CatergoriesService */ "./frontend/src/components/services/CatergoriesService.ts");
+/* harmony import */ var _services_CategoriesService__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/CategoriesService */ "./frontend/src/components/services/CategoriesService.ts");
 /* harmony import */ var _Content_Content__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Content/Content */ "./frontend/src/components/layouts/Content/Content.tsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -4603,18 +4615,27 @@ function Main() {
   var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState10 = _slicedToArray(_useState9, 2),
       clickedItem = _useState10[0],
-      setClickedItem = _useState10[1];
+      setClickedItem = _useState10[1]; //Get form backend list of banners and categories on first render.
+
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     _services_BannersService__WEBPACK_IMPORTED_MODULE_4__.BannerService.getBanners().then(function (data) {
       setBanners(data);
     });
-    _services_CatergoriesService__WEBPACK_IMPORTED_MODULE_5__.CategoryService.getCategories().then(function (data) {
+    _services_CategoriesService__WEBPACK_IMPORTED_MODULE_5__.CategoryService.getCategories().then(function (data) {
       setCategories(data);
     });
     return function () {};
-  }, []);
+  }, []); //Update list of elements when tab is changed.
+  //Reset selected element.
+
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    _services_BannersService__WEBPACK_IMPORTED_MODULE_4__.BannerService.getBanners().then(function (data) {
+      setBanners(data);
+    });
+    _services_CategoriesService__WEBPACK_IMPORTED_MODULE_5__.CategoryService.getCategories().then(function (data) {
+      setCategories(data);
+    });
     return function () {
       return setClickedItem(null);
     };
@@ -4631,12 +4652,11 @@ function Main() {
     activeTab: activeTab,
     banners: banners,
     categories: categories,
-    handeClickedItem: handleSelectedContent
+    handleClickedItem: handleSelectedContent
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Content_Content__WEBPACK_IMPORTED_MODULE_6__.Content, {
     element: clickedItem,
     type: type,
-    categories: categories,
-    activeTab: activeTab
+    categories: categories
   })));
 
   function handleClickBanners() {
@@ -4733,7 +4753,7 @@ var SideBar = function SideBar(_ref) {
   var activeTab = _ref.activeTab,
       banners = _ref.banners,
       categories = _ref.categories,
-      handeClickedItem = _ref.handeClickedItem;
+      handleClickedItem = _ref.handleClickedItem;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState2 = _slicedToArray(_useState, 2),
@@ -4743,13 +4763,16 @@ var SideBar = function SideBar(_ref) {
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState4 = _slicedToArray(_useState3, 2),
       input = _useState4[0],
-      setInput = _useState4[1];
+      setInput = _useState4[1]; //Used to filter displayed list of elements according to user input
+  //in search field. If no input provided - renders all list.
+
 
   var filterList = function filterList(list) {
     return list.filter(function (el) {
       if (input === "") return el;else return el.name.includes(input);
     });
-  };
+  }; //Reset input and highlighting for selected item on tab change.
+
 
   react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
     return function () {
@@ -4758,7 +4781,7 @@ var SideBar = function SideBar(_ref) {
     };
   }, [activeTab]);
   var view;
-  var placeholder;
+  var placeholder; //Renders list of elements according to selected tab.
 
   if (activeTab === _ActiveTab__WEBPACK_IMPORTED_MODULE_1__.ActiveTab.Banners) {
     view = renderList(banners);
@@ -4772,7 +4795,7 @@ var SideBar = function SideBar(_ref) {
     className: "sidebar__header"
   }, placeholder, ":"), view, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Footer__WEBPACK_IMPORTED_MODULE_3__.Footer, {
     activeTab: activeTab,
-    handler: handeClickedItem
+    handler: handleClickedItem
   }));
 
   function renderList(listToRender) {
@@ -4790,7 +4813,7 @@ var SideBar = function SideBar(_ref) {
         className: activeItem === element.id ? "sidebar__menu-item sidebar__menu-item_active" : "sidebar__menu-item",
         onClick: function onClick() {
           setActiveItem(element.id);
-          handeClickedItem(element);
+          handleClickedItem(element);
         }
       }, element.name);
     })));
@@ -4957,10 +4980,10 @@ var BannerService = {
 
 /***/ }),
 
-/***/ "./frontend/src/components/services/CatergoriesService.ts":
-/*!****************************************************************!*\
-  !*** ./frontend/src/components/services/CatergoriesService.ts ***!
-  \****************************************************************/
+/***/ "./frontend/src/components/services/CategoriesService.ts":
+/*!***************************************************************!*\
+  !*** ./frontend/src/components/services/CategoriesService.ts ***!
+  \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";

@@ -29,10 +29,7 @@ public class Category extends RepresentationModel<Category> {
 
   // It is optimal to use Set, because this reduces SQL operators while deleting.
   @JsonBackReference
-  @ManyToMany(fetch = FetchType.LAZY/*,cascade = {
-      CascadeType.MERGE,
-      CascadeType.PERSIST
-  }*/, mappedBy = "categories")
+  @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
   private Set<Banner> banners = new HashSet<>();
 
   public Set<Banner> getBanners() {

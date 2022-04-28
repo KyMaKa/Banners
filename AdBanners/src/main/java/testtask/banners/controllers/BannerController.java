@@ -1,5 +1,8 @@
 package testtask.banners.controllers;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -23,9 +26,6 @@ import testtask.banners.data.modelAssemblers.BannerModelAssembler;
 import testtask.banners.data.models.Banner;
 import testtask.banners.data.models.Category;
 import testtask.banners.service.BannerService;
-import testtask.banners.service.CategoryService;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 @RequestMapping(path = "/banners")
@@ -34,14 +34,11 @@ public class BannerController {
   private final BannerService bannerService;
   private final BannerModelAssembler assembler;
 
-  private final CategoryService categoryService;
-
   @Autowired
   public BannerController(BannerService bannerService,
-      BannerModelAssembler assembler, CategoryService categoryService) {
+      BannerModelAssembler assembler) {
     this.bannerService = bannerService;
     this.assembler = assembler;
-    this.categoryService = categoryService;
   }
 
   @GetMapping(path = "/{id}")

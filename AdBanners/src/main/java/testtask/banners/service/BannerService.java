@@ -1,6 +1,5 @@
 package testtask.banners.service;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +22,21 @@ public class BannerService {
     this.categoryRepository = categoryRepository;
   }
 
+  /**
+   * Simply creates new banner.
+   * @param banner - banner to create.
+   * @return created banner.
+   */
   public Banner createBanner(Banner banner) {
     bannerRepository.save(banner);
     return banner;
   }
 
+  /**
+   * Get banner by id.
+   * @param id - id of the banner.
+   * @return - banner with given id.
+   */
   public Banner getBanner(Long id) {
     return bannerRepository.getBannerByIdAndDeletedFalse(id);
   }
@@ -40,37 +49,28 @@ public class BannerService {
     return bannerRepository.getBannersByDeletedFalse();
   }
 
+  /**
+   * Update banner with given id.
+   * @param newBanner - changed banner.
+   * @param id - of the banner to update.
+   * @return - updated banner.
+   */
   public Banner updateBanner(Banner newBanner, Long id) {
     Banner banner = getBanner(id);
     banner.setName(newBanner.getName());
     banner.setText(newBanner.getText());
     banner.setPrice(newBanner.getPrice());
     banner.setDeleted(false);
-    /*Set<Category> oldCategories = banner.getCategories();
-    Set<Category> newCategories = newBanner.getCategories();
-    Iterator<Category> categoryIterator = banner.getCategories().iterator();
-    Banner b = banner;
-    while (categoryIterator.hasNext()) {
-      Category category = categoryIterator.next();
-      if (!newCategories.contains(category)) {
-        categoryIterator.remove();
-        //categoryRepository.save(category);
-      }
-    }
-    for (Category category : newBanner.getCategories()) {
-      banner.getCategories().add(category);
-      //categoryRepository.save(category);
-    }*/
-    //I HONESTLY DON'T KNOW WHY THIS IS WORKING. PROBABLY 'mappedBy' IS
-    //DOING SOME BLACK MAGIC.
-    //I can't understand how to safely (without ConcurrentModificationException)
-    //remove categories from banner entity. Method below works fine, but im concern
-    //that this is a bad way of updating.
     banner.setCategories(newBanner.getCategories());
     bannerRepository.save(banner);
     return banner;
   }
 
+  /**
+   * Deletes banner. Keeps it in DB, simply marks it as deleted.
+   * Also removes linked categories.
+   * @param id - of the banner to delete.
+   */
   public void deleteBanner(Long id) {
     Banner banner = getBanner(id);
     Set<Category> categories = banner.getCategories();

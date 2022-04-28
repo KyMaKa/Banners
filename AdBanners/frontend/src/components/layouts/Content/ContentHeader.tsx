@@ -14,7 +14,7 @@ export const ContentHeader: FC<Props> = ({
   activeTab,
 }) => {
   if (elementId === 0) return createHeader();
-  return standartHeader(elementName, elementId);
+  return standardHeader(elementName, elementId);
 
   function createHeader() {
     return (
@@ -24,7 +24,7 @@ export const ContentHeader: FC<Props> = ({
     );
   }
 
-  function standartHeader(elementName: string, elementId: number) {
+  function standardHeader(elementName: string, elementId: number) {
     return (
       <header className="content__header">
         <span className="content__header-text">

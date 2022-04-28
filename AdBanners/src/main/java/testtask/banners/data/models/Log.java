@@ -1,24 +1,12 @@
 package testtask.banners.data.models;
 
-import java.sql.Array;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import javax.persistence.Basic;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import org.apache.tomcat.jni.Local;
 
 @Entity(name ="Logs")
 public class Log {
@@ -37,8 +25,7 @@ public class Log {
 
   private Long bannerId;
 
-  @ElementCollection
-  private Set<Long> categoriesId = new HashSet<>();
+  private String categoriesId;
 
   private Integer bannerPrice;
 
@@ -84,11 +71,11 @@ public class Log {
     this.bannerId = bannerId;
   }
 
-  public Set<Long> getCategoriesId() {
+  public String getCategoriesId() {
     return categoriesId;
   }
 
-  public void setCategoriesId(Set<Long> categoriesId) {
+  public void setCategoriesId(String categoriesId) {
     this.categoriesId = categoriesId;
   }
 

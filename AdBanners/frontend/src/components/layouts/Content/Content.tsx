@@ -6,22 +6,20 @@ import { ContentBannerForm } from "./ContentBannerForm";
 import { ContentHeader } from "./ContentHeader";
 import { ContentCategoryForm } from "./ContentCategoryForm";
 import { CategoryType } from "../../models/Categories";
+import { BannerType } from "../../models/Banners";
 
 interface Props {
-  // привести к типу.
-  element: any;
+  element: BannerType & CategoryType;
   type: ActiveTab;
-  activeTab: ActiveTab;
   categories: CategoryType[];
 }
 
-export const Content: FC<Props> = ({ element, type, categories, activeTab }) => {
-
-  console.log(activeTab);
-  console.log(type);
-
+export const Content: FC<Props> = ({ element, type, categories }) => {
+  //If no element is selected - render empty view.
   if (element === null) return <ContentEmpty />;
 
+  //If currently selected tab is Banners - display form for banners.
+  //Else - display form for categories.
   if (type === ActiveTab.Banners) return bannerContent();
   return categoryContent();
 

@@ -26,11 +26,7 @@ public class Banner {
   @Column(name = "deleted")
   private Boolean deleted;
   // It is optimal to use Set, because this reduces SQL operators while deleting.
-  @ManyToMany(fetch = FetchType.LAZY/*,
-      cascade = {
-          CascadeType.MERGE,
-          CascadeType.PERSIST
-      }*/)
+  @ManyToMany(fetch = FetchType.LAZY)
   private Set<Category> categories = new HashSet<>();
 
   @Override
@@ -109,10 +105,18 @@ public class Banner {
     this.deleted = deleted;
   }
 
+  /**
+   * Simply adds category to this banner.
+   * @param category to add.
+   */
   public void addCategory(Category category) {
     this.categories.add(category);
   }
 
+  /**
+   * Removes category from this banner.
+   * @param category to add.
+   */
   public void removeCategory(Category category) {
     this.categories.remove(category);
   }

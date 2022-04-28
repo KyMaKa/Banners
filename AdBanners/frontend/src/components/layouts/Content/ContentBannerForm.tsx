@@ -2,6 +2,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import * as React from "react";
 import { FC, useState } from "react";
 import Select, { MultiValue, OnChangeValue } from "react-select";
+import { BannerType } from "../../models/Banners";
 import { CategoryType } from "../../models/categories";
 import { BannerService } from "../../services/BannersService";
 import { Error } from "../Validation/Error";
@@ -9,8 +10,7 @@ import { Success } from "../Validation/Success";
 import { ContentFooter } from "./ContentFooter";
 
 interface Props {
-  // привести к типу.
-  element: any;
+  element: BannerType;
   categories: CategoryType[];
 }
 
@@ -24,6 +24,7 @@ export const ContentBannerForm: FC<Props> = ({ element, categories }) => {
     element.categories
   );
 
+  //Sets the element values on selecting element.
   React.useEffect(() => {
     setName(element.name);
     setPrice(element.price);
@@ -33,6 +34,7 @@ export const ContentBannerForm: FC<Props> = ({ element, categories }) => {
     setMessage("");
   }, [element]);
 
+  //Resets validation status.
   React.useEffect(() => {
     setStatus(null);
   }, [name]);
@@ -106,11 +108,11 @@ export const ContentBannerForm: FC<Props> = ({ element, categories }) => {
     </>
   );
 
-  function handleChangeName(event) {
+  function handleChangeName(event: React.BaseSyntheticEvent) {
     const value = event.target.value;
     setName(value);
   }
-  function handleChangePrice(event) {
+  function handleChangePrice(event: React.BaseSyntheticEvent) {
     const value = event.target.value;
     setPrice(value);
   }
@@ -125,19 +127,21 @@ export const ContentBannerForm: FC<Props> = ({ element, categories }) => {
     setbannerCategories(newCategories);
   }
 
-  function handleChangeText(event) {
+  function handleChangeText(event: React.BaseSyntheticEvent) {
     const value = event.target.value;
     setText(value);
   }
 
-  // создать новый и его меняь.
+  //Set request on backend to update existing banner.
   function updateBanner() {
-    element.name = name;
-    element.price = price;
-    element.categories = bannerCategories;
-    element.text = text;
-    console.log(element);
-    BannerService.updateBanner(element.id, element)
+    let banner: BannerType;
+    banner.id = element.id;
+    banner.name = name;
+    banner.price = price;
+    banner.categories = bannerCategories;
+    banner.text = text;
+    banner.deleted = false;
+    BannerService.updateBanner(banner.id, banner)
       .then((response: AxiosResponse) => {
         setMessage("Banner updated.");
         console.log(response.status);
@@ -161,6 +165,8 @@ export const ContentBannerForm: FC<Props> = ({ element, categories }) => {
       });
   }
 
+  //In this case new empty entity is already created
+  //So we just set it's values.
   function addBanner() {
     element.name = name;
     element.price = price;

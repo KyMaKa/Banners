@@ -1,15 +1,14 @@
 import { AxiosResponse, AxiosError } from "axios";
 import * as React from "react";
 import { FC, useState } from "react";
-import { BannerType } from "../../models/Banners";
-import { CategoryService } from "../../services/CatergoriesService";
+import { CategoryType } from "../../models/Categories";
+import { CategoryService } from "../../services/CategoriesService";
 import { Error } from "../Validation/Error";
 import { Success } from "../Validation/Success";
 import { ContentFooter } from "./ContentFooter";
 
 interface Props {
-  // типизировать
-  element: any;
+  element: CategoryType;
 }
 
 export const ContentCategoryForm: FC<Props> = ({ element }) => {
@@ -17,12 +16,14 @@ export const ContentCategoryForm: FC<Props> = ({ element }) => {
   const [status, setStatus] = useState<number>(null);
   const [message, setMessage] = useState<string>("");
 
+  //Sets the element values on selecting element.
   React.useEffect(() => {
     setName(element.name);
     setStatus(null);
     setMessage("");
   }, [element]);
 
+  //Resets validation status.
   React.useEffect(() => {
     setStatus(null);
   }, [name]);
@@ -64,16 +65,19 @@ export const ContentCategoryForm: FC<Props> = ({ element }) => {
     </>
   );
 
-  function handleChangeName(event) {
+  function handleChangeName(event: React.BaseSyntheticEvent) {
     const value = event.target.value;
     setName(value);
     console.log(value);
   }
 
-  // новый элемент
+  //Updates existing category.
   function updateCategory() {
-    element.name = name;
-    CategoryService.updateCategory(element.id, element)
+    let category: CategoryType;
+    category.id = element.id;
+    category.name = name;
+    category.deleted = false;
+    CategoryService.updateCategory(category.id, category)
       .then((response: AxiosResponse) => {
         setMessage("Category updated.");
         console.log(response.status);
@@ -97,6 +101,7 @@ export const ContentCategoryForm: FC<Props> = ({ element }) => {
       });
   }
 
+  //Sends request to add new category.
   function addCategory() {
     element.name = name;
     CategoryService.postCategory(element)

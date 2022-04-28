@@ -14,10 +14,6 @@ public interface BannerRepository extends CrudRepository<Banner, Long> {
 
   Banner getBannerByNameAndDeletedFalse(String name);
 
-  List<Banner> getBannersByDeletedFalseAndCategoriesIn(Set<Category> categories);
-
   List<Banner> getBannersByDeletedFalseAndCategoriesInOrderByPriceDesc(Set<Category> categories);
-
-  List<Banner> getBannersByNameContains(String name);
 
 }
