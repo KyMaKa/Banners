@@ -41,12 +41,22 @@ public class BannerController {
     this.assembler = assembler;
   }
 
+  /**
+   * Gets single banner with given id. Not used in client.
+   * @param id - of banner to get.
+   * @return - banner with given id.
+   */
   @GetMapping(path = "/{id}")
   public @ResponseBody
   EntityModel<Banner> getBanner(@PathVariable(name = "id") Long id) {
     Banner banner = bannerService.getBanner(id);
     return assembler.toModel(banner);
   }
+
+  /**
+   * Get all banners.
+   * @return - list of banners.
+   */
   @GetMapping(path = "/all")
   public @ResponseBody
   CollectionModel<EntityModel<Banner>> getAllBanner() {
@@ -56,6 +66,12 @@ public class BannerController {
         linkTo(methodOn(BannerController.class).getAllBanner()).withSelfRel());
   }
 
+  /**
+   * Adds a new banner entity to DB.
+   * @param banner - entity to add.
+   * @return - added entity, Bad Request if name is empty, Conflict id banner with
+   * given name already exists.
+   */
   @PostMapping()
   public ResponseEntity<?> addBanner(@RequestBody Banner banner) {
     if (banner.getName().isEmpty()) {
@@ -83,6 +99,13 @@ public class BannerController {
             .withDetail("Banner with name " + banner.getName() + " already exist."));
   }
 
+  /**
+   * Updates existing banner.
+   * @param newBanner - new entity with changed fields.
+   * @param id - of banner to update.
+   * @return - updated banner, Bad Request if name is empty, Conflict if new name
+   * is already taken by different banner.
+   */
   @PutMapping("/{id}")
   public ResponseEntity<?> updateBanner(@RequestBody Banner newBanner,
       @PathVariable("id") Long id) {
@@ -112,6 +135,12 @@ public class BannerController {
             .withDetail("Banner with name " + newBanner.getName() + " already exist."));
   }
 
+  /**
+   * Adds category to banner. Not used by client. Can be deleted.
+   * @param category - entity to add.
+   * @param id - of banner.
+   * @return - updated banner.
+   */
   @PutMapping(path = "/add/{id}")
   public ResponseEntity<?> addCategoryToBanner(@RequestBody Category category,
       @PathVariable("id") Long id) {
@@ -122,6 +151,12 @@ public class BannerController {
         .body(entityModel);
   }
 
+  /**
+   * Removes category from banner. Not used by client. Can be deleted.
+   * @param category - to remove.
+   * @param id - of banner.
+   * @return - updated banner.
+   */
   @PutMapping(path = "/remove/{id}")
   public ResponseEntity<?> removeCategoryFromBanner(@RequestBody Category category,
       @PathVariable("id") Long id) {
@@ -132,6 +167,11 @@ public class BannerController {
         .body(entityModel);
   }
 
+  /**
+   * Marks banner as deleted in DB.
+   * @param id - of banner.
+   * @return - no content.
+   */
   @DeleteMapping(path = "{id}")
   public ResponseEntity<?> deleteBanner(@PathVariable(name = "id") Long id) {
     bannerService.deleteBanner(id);

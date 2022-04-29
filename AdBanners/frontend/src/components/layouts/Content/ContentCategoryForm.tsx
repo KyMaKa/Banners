@@ -73,8 +73,7 @@ export const ContentCategoryForm: FC<Props> = ({ element }) => {
 
   //Updates existing category.
   function updateCategory() {
-    let category: CategoryType;
-    category.id = element.id;
+    let category: CategoryType = element;
     category.name = name;
     category.deleted = false;
     CategoryService.updateCategory(category.id, category)

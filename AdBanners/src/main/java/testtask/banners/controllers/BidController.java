@@ -51,6 +51,12 @@ public class BidController {
     logService.createLog(log);
   }
 
+  /**
+   * Finds not shown today banner
+   * @param banners - list of all banners with specified categories.
+   * @param logs - list of logs for user.
+   * @return - banner if found one, or null.
+   */
   private Banner findBanner(List<Banner> banners, List<Log> logs) {
     Banner banner = banners.get(0);
     if (logs.isEmpty()) {
@@ -74,6 +80,12 @@ public class BidController {
     return null;
   }
 
+  /**
+   * Shows banner text to user.
+   * @param categories - list of categories to find associated banners.
+   * @param request - request object.
+   * @return - text from banner, No content if no banners found.
+   */
   @GetMapping
   public ResponseEntity<?> getBannerText(@RequestParam("cat") List<String> categories,
       HttpServletRequest request) {
@@ -91,8 +103,7 @@ public class BidController {
     String userAgent = request.getHeader("User-Agent");
     String ipAddress = request.getRemoteAddr();
 
-    List<Banner> banners = bannerService.bannerRepository.getBannersByDeletedFalseAndCategoriesInOrderByPriceDesc(
-        set);
+    List<Banner> banners = bannerService.getOrderedBanners(set);
 
     LocalDateTime currentDate = LocalDateTime.now();
     LocalDateTime pastDate = currentDate.minusHours(24);

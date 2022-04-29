@@ -42,9 +42,15 @@ public class CategoryController {
     this.assembler = assembler;
   }
 
+  /**
+   * Creates new category entity and adds it to DB.
+   * @param category - entity to be created.
+   * @return - created entity, Bad Request if name is empty, Conflict if category
+   * with given name already exists.
+   */
   @PostMapping(path = "/add")
   public ResponseEntity<?> addNewCategory (@RequestBody Category category) {
-    if (Objects.equals(category.getName(), ""))
+    if (category.getName().isEmpty())
       return ResponseEntity
           .status(HttpStatus.BAD_REQUEST)
           .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
@@ -68,6 +74,10 @@ public class CategoryController {
             .withDetail("Category with name " + category.getName() + " already exist."));
   }
 
+  /**
+   * Gets a list of all not deleted categories.
+   * @return a list of categories.
+   */
   @GetMapping(path = "/all")
   public @ResponseBody
   CollectionModel<EntityModel<Category>> getAllCategory() {
@@ -77,6 +87,11 @@ public class CategoryController {
         linkTo(methodOn(CategoryController.class).getAllCategory()).withSelfRel());
   }
 
+  /**
+   * Gets a category with given id. Not used in client side.
+   * @param id - of category to return.
+   * @return - not deleted category.
+   */
   @GetMapping(path = "/{id}")
   public @ResponseBody EntityModel<Category> getCategory(@PathVariable("id") Long id) {
     Category category = categoryService.getCategory(id);
@@ -84,9 +99,16 @@ public class CategoryController {
     return assembler.toModel(category);
   }
 
+  /**
+   * updates category - renames it.
+   * @param newCategory - updated category.
+   * @param id - of category to update.
+   * @return - updated category if renames successfully, Bad Request if name is empty, Conflict
+   * if category with new name already exists.
+   */
   @PutMapping("/{id}")
   public ResponseEntity<?> renameCategory(@RequestBody Category newCategory, @PathVariable("id") Long id) {
-    if (Objects.equals(newCategory.getName(), ""))
+    if (newCategory.getName().isEmpty())
       return ResponseEntity
           .status(HttpStatus.BAD_REQUEST)
           .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
@@ -110,6 +132,11 @@ public class CategoryController {
             .withDetail("Category with name " + newCategory.getName() + " already exist."));
   }
 
+  /**
+   * Mark category as deleted in DB.
+   * @param id - of category to delete.
+   * @return - no content or Method not Allowed if category contains banners.
+   */
   @DeleteMapping("/{id}")
   public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id) {
     Category category = categoryService.getCategory(id);

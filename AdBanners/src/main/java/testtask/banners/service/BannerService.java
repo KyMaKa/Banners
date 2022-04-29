@@ -50,6 +50,16 @@ public class BannerService {
   }
 
   /**
+   * Get banners with given categories.
+   * @param set - of categories.
+   * @return - list of banners.
+   */
+  public List<Banner> getOrderedBanners(Set<Category> set) {
+    return bannerRepository.getBannersByDeletedFalseAndCategoriesInOrderByPriceDesc(
+        set);
+  }
+
+  /**
    * Update banner with given id.
    * @param newBanner - changed banner.
    * @param id - of the banner to update.

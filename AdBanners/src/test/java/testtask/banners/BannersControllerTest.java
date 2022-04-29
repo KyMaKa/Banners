@@ -2,9 +2,11 @@ package testtask.banners;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -72,7 +74,7 @@ class BannersControllerTest {
   public void testGetSingleBanner() throws Exception {
     when(bannerService.getBanner((Long) any())).thenReturn(banner);
 
-    mockMvc.perform(get("/banners/{id}", 1L)
+    mockMvc.perform(get("/banners/{id}", 1L).with(user("user"))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.id", is(1)));
@@ -103,7 +105,7 @@ class BannersControllerTest {
     //            {
     //                "id": 1,
     //                ...
-    mockMvc.perform(get("/banners/all")
+    mockMvc.perform(get("/banners/all").with(user("user"))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("_embedded.bannerList[0].id", is(1)))
@@ -115,7 +117,7 @@ class BannersControllerTest {
 
     when(bannerService.createBanner(any())).thenReturn(banner);
 
-    mockMvc.perform(post("/banners")
+    mockMvc.perform(post("/banners").with(user("user"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(mapper.writeValueAsBytes(banner)))
         .andExpect(status().isCreated())
@@ -135,7 +137,7 @@ class BannersControllerTest {
     EntityModel<Banner> entity = assembler.toModel(updatedBanner);
     when(bannerModelAssembler.toModel(any())).thenReturn(entity);
 
-    mockMvc.perform(put("/banners/{id}", 1L)
+    mockMvc.perform(put("/banners/{id}", 1L).with(user("user"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(mapper.writeValueAsBytes(updatedBanner)))
         .andExpect(status().isCreated())
@@ -147,7 +149,7 @@ class BannersControllerTest {
 
     doNothing().when(bannerService).deleteBanner(any());
 
-    mockMvc.perform(delete("/banners/{id}", 1L))
+    mockMvc.perform(delete("/banners/{id}", 1L).with(user("user")))
         .andExpect(status().isNoContent())
         .andExpect(content().string(""));
 
@@ -165,7 +167,7 @@ class BannersControllerTest {
 
     when(bannerService.addCategory(any(), any())).thenReturn(banner);
 
-    mockMvc.perform(put("/banners/add/{id}", 1L)
+    mockMvc.perform(put("/banners/add/{id}", 1L).with(user("user"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(mapper.writeValueAsBytes(category)))
         .andExpect(status().isCreated())
@@ -173,7 +175,7 @@ class BannersControllerTest {
   }
 
   @Test
-  public void testRemoveCategoryToBanner() throws Exception {
+  public void testRemoveCategoryFromBanner() throws Exception {
     Category category = new Category();
     category.setName("Some category");
     category.setId(1L);
@@ -181,10 +183,38 @@ class BannersControllerTest {
 
     when(bannerService.removeCategory(any(), any())).thenReturn(banner);
 
-    mockMvc.perform(put("/banners/add/{id}", 1L)
+    mockMvc.perform(put("/banners/add/{id}", 1L).with(user("user"))
             .contentType(MediaType.APPLICATION_JSON)
             .content(mapper.writeValueAsBytes(category)))
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.categories.size()", is(0)));
+  }
+
+  @Test
+  public void testCreateNewBannerWithEmptyName() throws Exception {
+    Banner newBanner;
+    newBanner = new Banner();
+    newBanner.setName("");
+    newBanner.setDeleted(false);
+
+    mockMvc.perform(post("/banners").with(user("user"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(mapper.writeValueAsBytes(newBanner)))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testCreateNewBannerWithExistingName() throws Exception {
+    Banner newBanner;
+    newBanner = new Banner();
+    newBanner.setName("Some banner");
+    newBanner.setDeleted(false);
+
+    when(bannerService.getBanner(anyString())).thenReturn(banner);
+
+    mockMvc.perform(post("/banners").with(user("user"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(mapper.writeValueAsBytes(newBanner)))
+        .andExpect(status().isConflict());
   }
 }

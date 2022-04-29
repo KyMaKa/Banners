@@ -4230,8 +4230,8 @@ var ContentBannerForm = function ContentBannerForm(_ref) {
 
 
   function updateBanner() {
-    var banner;
-    banner.id = element.id;
+    var banner = element; // banner.id = element.id;
+
     banner.name = name;
     banner.price = price;
     banner.categories = bannerCategories;
@@ -4382,8 +4382,7 @@ var ContentCategoryForm = function ContentCategoryForm(_ref) {
 
 
   function updateCategory() {
-    var category;
-    category.id = element.id;
+    var category = element;
     category.name = name;
     category.deleted = false;
     _services_CategoriesService__WEBPACK_IMPORTED_MODULE_1__.CategoryService.updateCategory(category.id, category).then(function (response) {

@@ -134,8 +134,8 @@ export const ContentBannerForm: FC<Props> = ({ element, categories }) => {
 
   //Set request on backend to update existing banner.
   function updateBanner() {
-    let banner: BannerType;
-    banner.id = element.id;
+    let banner: BannerType = element;
+    // banner.id = element.id;
     banner.name = name;
     banner.price = price;
     banner.categories = bannerCategories;
