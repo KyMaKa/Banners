@@ -1,4 +1,4 @@
-# JarSoft Test Task
+# Banners managment service.
 #### Made by Ivan Shatalov
 
 ## Installation and usage.
